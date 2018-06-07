@@ -6,11 +6,15 @@ package com.tie.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Ahmed El-Deeb
  *
  */
+@Entity
+@Table(name = "mag")
 public class Mag {
 
 	@Column(name = "mag_id")
