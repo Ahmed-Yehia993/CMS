@@ -38,9 +38,7 @@ public class User {
 	@Column(name = "name")
 	@NotEmpty(message = "*Please provide your name")
 	private String name;
-	@Column(name = "last_name")
-	@NotEmpty(message = "*Please provide your last name")
-	private String lastName;
+
 	@Column(name = "active")
 	private int active;
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -69,14 +67,6 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -110,7 +100,6 @@ public class User {
 				", email='" + email + '\'' +
 				", password='" + password + '\'' +
 				", name='" + name + '\'' +
-				", lastName='" + lastName + '\'' +
 				", active=" + active +
 				", roles=" + roles +
 				'}';
