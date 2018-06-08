@@ -5,9 +5,7 @@ package com.tie.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Ahmed El-Deeb
@@ -16,7 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "mag")
 public class Mag {
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "mag_id")
 	private int id;
 	@Column(name = "amount")
