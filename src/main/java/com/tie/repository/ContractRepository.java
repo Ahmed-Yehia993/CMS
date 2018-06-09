@@ -13,6 +13,6 @@ import com.tie.model.Contract;
  *
  */
 @Repository("contractRepository")
-public interface ContractRepository extends JpaRepository<Contract, Long> {
+public interface ContractRepository extends JpaRepository<Contract, Integer> {
 	
 }

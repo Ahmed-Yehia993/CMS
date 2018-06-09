@@ -11,6 +11,6 @@ import com.tie.model.Mag;
  * @author Ahmed El-Deeb
  *
  */
-public interface MagRepository extends JpaRepository<Mag, Long> {
+public interface MagRepository extends JpaRepository<Mag, Integer> {
 
 }
