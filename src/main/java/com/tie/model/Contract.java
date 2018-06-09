@@ -139,18 +139,9 @@ public class Contract {
 
 	@Override
 	public String toString() {
-		return "Contract{" +
-				"id=" + id +
-				", accountNo='" + accountNo + '\'' +
-				", startDate=" + startDate +
-				", duration=" + duration +
-				", status='" + status + '\'' +
-				", Type='" + Type + '\'' +
-				", hardCopyPath='" + hardCopyPath + '\'' +
-				", contact=" + contact +
-				", area=" + area +
-				", deals=" + deals +
-				", mags=" + mags +
-				'}';
+		return "Contract{" + "id=" + id + ", accountNo='" + accountNo + '\'' + ", startDate=" + startDate
+				+ ", duration=" + duration + ", status='" + status + '\'' + ", Type='" + Type + '\''
+				+ ", hardCopyPath='" + hardCopyPath + '\'' + ", contact=" + contact + ", area=" + area + ", deals="
+				+ deals + ", mags=" + mags + '}';
 	}
 }

@@ -30,7 +30,7 @@ public class LoginController {
 		ModelAndView modelAndView = new ModelAndView();
 		User user = new User();
 		modelAndView.addObject("user", user);
-		modelAndView.setViewName("index");
+		modelAndView.setViewName("indexOld");
 		return modelAndView;
 	}
 
@@ -64,9 +64,9 @@ public class LoginController {
 			System.out.println(authorities);
 			boolean authorized = authorities.contains(new SimpleGrantedAuthority("ADMIN"));
 			if (authorized) {
-				url = "redirect:/admin/home";
+				url = "redirect:/contract/new";
 			} else {
-				url = "redirect:/user/home";
+				url = "redirect:/contract/new";
 			}
 		} else {
 			url = "login";
