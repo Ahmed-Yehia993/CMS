@@ -28,13 +28,20 @@ public class LoginController {
 	@RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
 	public ModelAndView login(){
 		ModelAndView modelAndView = new ModelAndView();
-		User user = new User();
-		modelAndView.addObject("user", user);
-		modelAndView.setViewName("index");
+		modelAndView.setViewName("login");
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value={"/register"}, method = RequestMethod.GET)
+	public ModelAndView register(){
+		ModelAndView modelAndView = new ModelAndView();
+		User user = new User();
+		modelAndView.addObject("user", user);
+		modelAndView.setViewName("register");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		User userExists = userService.findUserByEmail(user.getEmail());
@@ -44,10 +51,10 @@ public class LoginController {
 							"There is already a user registered with the email provided");
 		}
 		if (bindingResult.hasErrors()) {
-			modelAndView.setViewName("redirect:/index#toregister");
+			modelAndView.setViewName("register");
 		} else {
 			userService.saveUser(user);
-			modelAndView.setViewName("index");
+			modelAndView.setViewName("login");
 			
 		}
 		return modelAndView;
