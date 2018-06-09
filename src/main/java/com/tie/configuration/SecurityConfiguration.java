@@ -42,15 +42,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
+
 		http.
 			authorizeRequests()
-				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
-				.antMatchers("/user/**").hasAuthority("USER").anyRequest()
-				.authenticated().and().csrf().disable().formLogin()
+				.antMatchers("/user/**").hasAuthority("USER").and().formLogin()
 				.loginPage("/login").loginProcessingUrl("/login").failureUrl("/login?error=true")
 				.defaultSuccessUrl("/home")
 				.usernameParameter("email")
@@ -58,14 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/").and().exceptionHandling()
-				.accessDeniedPage("/access-denied");
-	}
-	
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-	    web
-	       .ignoring()
-	       .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/assets/**", "/sound/**");
+				.accessDeniedPage("/access-denied").and().csrf();
 	}
 
 }
