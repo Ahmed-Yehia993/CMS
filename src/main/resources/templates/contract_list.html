@@ -69,8 +69,8 @@
                         </div>
                         <div class="widget-body">
                             <div class="table-toolbar">
-                                <a href="new" class="btn btn-default">
-                                    Add New User
+                                <a href="/contract/new" class="btn btn-default">
+                                    Add New Contract
                                 </a>
 
                             </div>
@@ -102,9 +102,9 @@
                                     <td th:text="*{p.area}"></td>
                                     <td th:text="*{p.status}"></td>
                                     <td>
-                                        <a th:href="@{*{p.id} + '/edit'}" class="btn btn-info btn-xs "><i
+                                        <a th:href="@{'/contract/'+*{p.id} + '/edit'}" class="btn btn-info btn-xs "><i
                                                 class="fa fa-edit"></i> Edit</a>
-                                        <a th:href="*{p.id}" class="btn btn-palegreen btn-xs view"><i
+                                        <a th:href="@{'/contract/'+*{p.id} }" class="btn btn-palegreen btn-xs view"><i
                                                 class="fa fa-eye"></i> view</a>
                                     </td>
                                 </tr>

@@ -27,6 +27,7 @@ public class ContractController {
     @RequestMapping(value = "/contract/new", method = RequestMethod.GET)
     public ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("currentUser",  getCurrentUser());
         modelAndView.setViewName("contract_create");
         return modelAndView;
     }
@@ -37,9 +38,8 @@ public class ContractController {
         List<Contract> contracts = contractService.findAll();
         modelAndView.addObject("contracts", contracts);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("currentUser",  user);
+
+        modelAndView.addObject("currentUser",  getCurrentUser());
 
         modelAndView.setViewName("contract_list");
         return modelAndView;
@@ -48,6 +48,7 @@ public class ContractController {
     @RequestMapping(value = "/contract/{contractId}", method = RequestMethod.GET)
     public ModelAndView contractView(@PathVariable("contractId") String contractId) {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("currentUser",  getCurrentUser());
         modelAndView.addObject("contract",contractService.findOne(contractId));
         modelAndView.setViewName("contract_view");
         return modelAndView;
@@ -57,7 +58,15 @@ public class ContractController {
     public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("contract",contractService.findOne(contractId));
+        modelAndView.addObject("currentUser",  getCurrentUser());
+
         modelAndView.setViewName("contract_edit");
         return modelAndView;
+    }
+
+    public User getCurrentUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        return user;
     }
 }
