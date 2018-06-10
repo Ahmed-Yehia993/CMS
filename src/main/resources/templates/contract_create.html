@@ -43,7 +43,7 @@
 								Copy<span class="chevron"></span></li>
 						</ul>
 					</div>
-					<form th:action="@{/contract/new}" method="POST" autocomplete="on">
+					<form th:action="@{/contract/new}" method="POST" autocomplete="on" id="wizeredForm">
 
 						<div class="step-content" id="tabbedwizardsteps">
 							<div class="step-pane active" id="tabbedwizardstep1">
@@ -226,16 +226,10 @@
 		jQuery(function($) {
 			$('#simplewizardinwidget').wizard();
 			$('#simplewizard').wizard();
-			$('#tabbedwizard')
-					.wizard()
-					.on(
-							'finished',
-							function(e) {
-								Notify(
-										'Thank You! All of your information saved successfully.',
-										'bottom-right', '5000', 'blue',
-										'fa-check', true);
-							});
+			$('#tabbedwizard').wizard().on('finished',	function(e) {
+			    $("#wizeredForm").submit();					
+				Notify(	'Thank You! All of your information saved successfully.','bottom-right', '5000', 'blue','fa-check', true);
+			});
 			$('#WiredWizard').wizard();
 		});
 

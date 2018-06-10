@@ -1,16 +1,12 @@
 package com.tie.controller;
 
-import com.tie.model.Contract;
-import com.tie.model.User;
-import com.tie.service.UserService;
-import org.hibernate.Hibernate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,7 +25,6 @@ import com.tie.model.User;
 import com.tie.service.ContactService;
 import com.tie.service.ContactServiceImpl;
 import com.tie.service.ContractService;
-import com.tie.service.ContractServiceImpl;
 import com.tie.service.DealService;
 import com.tie.service.DealServiceImpl;
 import com.tie.service.MagService;
@@ -39,45 +34,42 @@ import com.tie.service.UserService;
 @Controller
 public class ContractController {
 
-    @Autowired
-    private ContractService contractService;
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private ContractService contractService;
+	@Autowired
+	private UserService userService;
 
-    @RequestMapping(value = "/contract/new", method = RequestMethod.GET)
-    public ModelAndView create() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("currentUser",  getCurrentUser());
-        modelAndView.setViewName("contract_create");
-        return modelAndView;
-    }
+	@RequestMapping(value = "/contract/new", method = RequestMethod.GET)
+	public ModelAndView create() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("currentUser", getCurrentUser());
+		modelAndView.setViewName("contract_create");
+		return modelAndView;
+	}
 
+	@RequestMapping(value = "/contract/{contractId}", method = RequestMethod.GET)
+	public ModelAndView contractView(@PathVariable("contractId") String contractId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("currentUser", getCurrentUser());
+		Contract contract = contractService.findOne(contractId);
+		Hibernate.initialize(contract.getContact());
+		Hibernate.initialize(contract.getDeals());
+		Hibernate.initialize(contract.getMags());
+		System.out.println(contract.getContact());
+		modelAndView.addObject("contract", contract);
+		modelAndView.setViewName("contract_view");
+		return modelAndView;
+	}
 
+	@RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.GET)
+	public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("contract", contractService.findOne(contractId));
+		modelAndView.addObject("currentUser", getCurrentUser());
 
-    @RequestMapping(value = "/contract/{contractId}", method = RequestMethod.GET)
-    public ModelAndView contractView(@PathVariable("contractId") String contractId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("currentUser",  getCurrentUser());
-        Contract contract = contractService.findOne(contractId);
-        Hibernate.initialize(contract.getContact());
-        Hibernate.initialize(contract.getDeals());
-        Hibernate.initialize(contract.getMags());
-        System.out.println(contract.getContact());
-        modelAndView.addObject("contract",contract);
-        modelAndView.setViewName("contract_view");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.GET)
-    public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("contract",contractService.findOne(contractId));
-        modelAndView.addObject("currentUser",  getCurrentUser());
-
-        modelAndView.setViewName("contract_edit");
-        return modelAndView;
-    }
-
+		modelAndView.setViewName("contract_edit");
+		return modelAndView;
+	}
 
 	@RequestMapping(value = "/contract/new", method = RequestMethod.POST)
 	public ModelAndView create(@RequestParam("contractNumber") String contractNumber,
@@ -86,7 +78,7 @@ public class ContractController {
 			@RequestParam("lastName") String lastName, @RequestParam("emailAddress") String emailAddress,
 			@RequestParam("zip") String zip, @RequestParam("address") String address, @RequestParam("city") String city,
 			@RequestParam("country") String country, @RequestParam("shopArea") String shopArea,
-			@RequestParam("deals") ArrayList<String> deals, @RequestParam("mag[]") String[] mags,
+			@RequestParam("deals") String[] deals, @RequestParam("mag[]") String[] mags,
 			@RequestParam("fileUpload") String fileUpload) {
 
 		ContactService contactService = new ContactServiceImpl();
@@ -131,10 +123,10 @@ public class ContractController {
 		}
 		contract.setMags(contractMags);
 
-		for (int i = 0; i < deals.size(); i++) {
+		for (int i = 0; i < deals.length; i++) {
 			DealService dealService = new DealServiceImpl();
 			deal = new Deal();
-			deal = dealService.findOneByName(deals.get(i));
+			deal = dealService.findOneByName(deals[i]);
 			contractDeals.add(deal);
 		}
 		contract.setDeals(contractDeals);
@@ -169,9 +161,6 @@ public class ContractController {
 		modelAndView.setViewName("contract_list");
 		return modelAndView;
 	}
-
-
-
 
 	public User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

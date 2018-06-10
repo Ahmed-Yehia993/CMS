@@ -72,9 +72,9 @@ public class LoginController {
 			System.out.println(authorities);
 			boolean authorized = authorities.contains(new SimpleGrantedAuthority("ADMIN"));
 			if (authorized) {
-				url = "redirect:/contract/new";
+				url = "redirect:/contract";
 			} else {
-				url = "redirect:/contract/new";
+				url = "redirect:/contract";
 			}
 		} else {
 			url = "login";
