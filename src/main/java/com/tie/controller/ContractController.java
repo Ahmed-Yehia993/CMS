@@ -3,6 +3,7 @@ package com.tie.controller;
 import com.tie.model.Contract;
 import com.tie.model.User;
 import com.tie.service.UserService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,7 +50,12 @@ public class ContractController {
     public ModelAndView contractView(@PathVariable("contractId") String contractId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("currentUser",  getCurrentUser());
-        modelAndView.addObject("contract",contractService.findOne(contractId));
+        Contract contract = contractService.findOne(contractId);
+        Hibernate.initialize(contract.getContact());
+        Hibernate.initialize(contract.getDeals());
+        Hibernate.initialize(contract.getMags());
+        System.out.println(contract.getContact());
+        modelAndView.addObject("contract",contract);
         modelAndView.setViewName("contract_view");
         return modelAndView;
     }
