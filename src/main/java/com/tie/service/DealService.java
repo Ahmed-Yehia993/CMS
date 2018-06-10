@@ -15,5 +15,5 @@ public interface DealService {
 
 	public void saveDeal(Deal deal);
 	public List<Deal> findAll();
-	Deal findOne();
+	Deal findOneByName(String name);
 }

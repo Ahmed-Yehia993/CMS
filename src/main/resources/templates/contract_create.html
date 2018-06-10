@@ -2,241 +2,227 @@
 
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <!-- Head -->
 <head th:replace="fragments/style :: head"></head>
 <!-- /Head -->
 <!-- Body -->
 <body>
-<!-- Head -->
-<div th:replace="fragments/sidemenu :: div"></div>
-<!--Header Buttons End-->
-<!-- Page Content -->
-<div class="page-content">
-    <!-- Page Breadcrumb -->
-    <div class="page-breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="fa fa-home"></i>
-                <a href="#">Home</a>
-            </li>
-            <li>
-                <a href="/contract/">Contracts</a>
-            </li>
-            <li class="active">new</li>
-        </ul>
-    </div>
-    <!-- /Page Breadcrumb -->
-    <!-- Page Header -->
-    <div class="page-header position-relative">
-        <!-- Your Content Goes Here -->
-        <div class="row">
-            <div class="col-lg-12 col-sm-12 col-xs-12">
+	<!-- Head -->
+	<div th:replace="fragments/sidemenu :: div"></div>
+	<!--Header Buttons End-->
+	<!-- Page Content -->
+	<div class="page-content">
+		<!-- Page Breadcrumb -->
+		<div class="page-breadcrumbs">
+			<ul class="breadcrumb">
+				<li><i class="fa fa-home"></i> <a href="#">Home</a></li>
+				<li><a href="/contract/">Contracts</a></li>
+				<li class="active">new</li>
+			</ul>
+		</div>
+		<!-- /Page Breadcrumb -->
+		<!-- Page Header -->
+		<div class="page-header position-relative">
+			<!-- Your Content Goes Here -->
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 col-xs-12">
 
-                <div id="tabbedwizard" class="wizard wizard-tabbed"
-                     data-target="#tabbedwizardsteps">
-                    <ul class="steps">
-                        <li data-target="#tabbedwizardstep1" class="active"><span
-                                class="step">1</span>Basic Info.<span class="chevron"></span></li>
-                        <li data-target="#tabbedwizardstep2"><span class="step">2</span>Contact
-                            Info.<span class="chevron"></span></li>
-                        <li data-target="#tabbedwizardstep3"><span class="step">3</span>Profile/Services<span
-                                class="chevron"></span></li>
-                        <li data-target="#tabbedwizardstep4"><span class="step">4</span>MAG<span
-                                class="chevron"></span></li>
-                        <li data-target="#tabbedwizardstep5"><span class="step">5</span>Contract
-                            Copy<span class="chevron"></span></li>
-                    </ul>
-                </div>
-                <form th:action="@{/contract/new}" method="POST"
-                      autocomplete="on">
+					<div id="tabbedwizard" class="wizard wizard-tabbed"
+						data-target="#tabbedwizardsteps">
+						<ul class="steps">
+							<li data-target="#tabbedwizardstep1" class="active"><span
+								class="step">1</span>Basic Info.<span class="chevron"></span></li>
+							<li data-target="#tabbedwizardstep2"><span class="step">2</span>Contact
+								Info.<span class="chevron"></span></li>
+							<li data-target="#tabbedwizardstep3"><span class="step">3</span>Profile/Services<span
+								class="chevron"></span></li>
+							<li data-target="#tabbedwizardstep4"><span class="step">4</span>MAG<span
+								class="chevron"></span></li>
+							<li data-target="#tabbedwizardstep5"><span class="step">5</span>Contract
+								Copy<span class="chevron"></span></li>
+						</ul>
+					</div>
+					<form th:action="@{/contract/new}" method="POST" autocomplete="on">
 
-                    <div class="step-content" id="tabbedwizardsteps">
-                        <div class="step-pane active" id="tabbedwizardstep1">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="contractNumber">Contract Number</label> <input
-                                        type="text" class="form-control input-sm"
-                                        name="contractNumber" placeholder="eg. 10002352">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="contractType">Contract Type</label> <select
-                                        name="contractType" class="form-control input-sm">
-                                    <option value="Revenue Sharing">Revenue Sharing</option>
-                                    <option value="Fixed Rental">Fixed Rental</option>
-                                    <option value="Incremental Rental">Incremental
-                                        Rental
-                                    </option>
-                                </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="contractStart">Contract Start Date</label>
-                                    <div class="input-group">
-                                        <input class="form-control date-picker input-sm"
-                                               name="contractStart" data-date-format="dd/mm/yyyy"
-                                               placeholder="eg. 09-04-2018"> <span
-                                            class="input-group-addon"> <i
-                                            class="fa fa-calendar"></i>
-													</span>
-                                    </div>
-                                </div>
+						<div class="step-content" id="tabbedwizardsteps">
+							<div class="step-pane active" id="tabbedwizardstep1">
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="contractNumber">Contract Number</label> <input
+											type="text" class="form-control input-sm"
+											name="contractNumber" placeholder="eg. 10002352">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="contractType">Contract Type</label> <select
+											name="contractType" class="form-control input-sm">
+											<option value="Revenue Sharing">Revenue Sharing</option>
+											<option value="Fixed Rental">Fixed Rental</option>
+											<option value="Incremental Rental">Incremental
+												Rental</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="contractStart">Contract Start Date</label>
+										<div class="input-group">
+											<input class="form-control date-picker input-sm"
+												name="contractStart" data-date-format="dd/mm/yyyy"
+												placeholder="eg. 09-04-2018"> <span
+												class="input-group-addon"> <i class="fa fa-calendar"></i>
+											</span>
+										</div>
+									</div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="duration">Contract Duration (Years)</label> <input
-                                        type="number" class="form-control input-sm" name="duration"
-                                        placeholder="eg. 5">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-pane" id="tabbedwizardstep2">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="firstName">First Name</label> <input type="text"
-                                                                                     class="form-control input-sm"
-                                                                                     name="firstName"
-                                                                                     placeholder="eg. Jon">
-                                </div>
+									<div class="form-group col-md-6">
+										<label for="duration">Contract Duration (Years)</label> <input
+											type="number" class="form-control input-sm" name="duration"
+											placeholder="eg. 5">
+									</div>
+								</div>
+							</div>
+							<div class="step-pane" id="tabbedwizardstep2">
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="firstName">First Name</label> <input type="text"
+											class="form-control input-sm" name="firstName"
+											placeholder="eg. Jon">
+									</div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="lastName">Last Name</label> <input type="text"
-                                                                                   class="form-control input-sm"
-                                                                                   name="lastName"
-                                                                                   placeholder="eg. Deo">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="emailAddress">E-mail Address</label> <input
-                                        type="email" class="form-control input-sm"
-                                        name="emailAddress" placeholder="eg. example@bac.com">
-                                </div>
+									<div class="form-group col-md-6">
+										<label for="lastName">Last Name</label> <input type="text"
+											class="form-control input-sm" name="lastName"
+											placeholder="eg. Deo">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="emailAddress">E-mail Address</label> <input
+											type="email" class="form-control input-sm"
+											name="emailAddress" placeholder="eg. example@bac.com">
+									</div>
 
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="zip">ZIP</label> <input type="text"
-                                                                        class="form-control input-sm" name="zip"
-                                                                        placeholder="eg. 12345">
-                                </div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="zip">ZIP</label> <input type="text"
+											class="form-control input-sm" name="zip"
+											placeholder="eg. 12345">
+									</div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="address">Address</label> <input type="text"
-                                                                                class="form-control input-sm"
-                                                                                name="address"
-                                                                                placeholder="eg. 445 Mount Eden Road, Auckland">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="city">City</label> <input type="text"
-                                                                          class="form-control input-sm" name="city"
-                                                                          placeholder="eg. Auckland">
-                                </div>
+									<div class="form-group col-md-6">
+										<label for="address">Address</label> <input type="text"
+											class="form-control input-sm" name="address"
+											placeholder="eg. 445 Mount Eden Road, Auckland">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="city">City</label> <input type="text"
+											class="form-control input-sm" name="city"
+											placeholder="eg. Auckland">
+									</div>
 
-                                <div class="form-group col-md-6">
-                                    <label for="country">Country</label> <input type="text"
-                                                                                class="form-control input-sm"
-                                                                                name="country"
-                                                                                placeholder="eg. Newzeland">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-pane" id="tabbedwizardstep3">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="shopArea">Shop Area (SQM)</label> <input
-                                        type="text" class="form-control input-sm" name="shopArea"
-                                        placeholder="eg. 1256">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="deals">Contract Services</label> <select
-                                        name="deals" id="deals" class="form-control input-sm"
-                                        multiple size="6">
-                                    <option value="Retail Revenue Sharing">Retail
-                                        Revenue Sharing
-                                    </option>
-                                    <option value="Rental">Rental</option>
-                                    <option value="IPTV">IPTV</option>
-                                    <option value="Power">Power</option>
-                                    <option value="Water">Water</option>
-                                </select> <input type="button" id="btnReset" value="Reset"
-                                                 class="btn-sm btn btn-danger"/>
+									<div class="form-group col-md-6">
+										<label for="country">Country</label> <input type="text"
+											class="form-control input-sm" name="country"
+											placeholder="eg. Newzeland">
+									</div>
+								</div>
+							</div>
+							<div class="step-pane" id="tabbedwizardstep3">
+								<div class="row">
+									<div class="form-group col-md-6">
+										<label for="shopArea">Shop Area (SQM)</label> <input
+											type="text" class="form-control input-sm" name="shopArea"
+											placeholder="eg. 1256">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="deals">Contract Services</label> <select
+											name="deals" id="deals" class="form-control input-sm"
+											multiple size="8">
+											<option value="bac_iptv_monthly">bac_iptv_monthly</option>
+											<option value="bac_util_power">bac_util_power</option>
+											<option value="bac_util_water">bac_util_water</option>
+											<option value="bac_retail_annually_lag">bac_retail_annually_lag</option>
+											<option value="bac_retail_monthly_lag">bac_retail_monthly_lag</option>
+											<option value="bac_retail_mag">bac_retail_mag</option>
+											<option value="bac_rental_monthly">bac_rental_monthly</option>
+										</select> <input type="button" id="btnReset" value="Reset"
+											class="btn-sm btn btn-danger" />
 
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-pane" id="tabbedwizardstep4">
-                            <div class="row form-group col-md-6">
-                                <button class="add_field_button btn btn-palegreen btn-sm">Add
-                                    One MAG
-                                </button>
-                            </div>
-                            <div class="row">
-                                <div class="input_fields_wrap col-md-12 form-group">
-                                    <div>
-                                        <input type="hidden" class="form-control input-sm"
-                                               placeholder="eg. 1234890" name="mag[]">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-pane" id="tabbedwizardstep5">
+									</div>
+								</div>
+							</div>
+							<div class="step-pane" id="tabbedwizardstep4">
+								<div class="row form-group col-md-6">
+									<button class="add_field_button btn btn-palegreen btn-sm">Add
+										One MAG</button>
+								</div>
+								<div class="row">
+									<div class="input_fields_wrap col-md-12 form-group">
+										<div>
+											<input type="hidden" class="form-control input-sm"
+												placeholder="eg. 1234890" name="mag[]">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="step-pane" id="tabbedwizardstep5">
 
-                            <h5 class="row-title before-darkpink">
-                                <i class="fa fa-upload darkpink"></i>Contract Copy
-                            </h5>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="well with-header">
+								<h5 class="row-title before-darkpink">
+									<i class="fa fa-upload darkpink"></i>Contract Copy
+								</h5>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="well with-header">
+											<div id="dZUpload" class="dropzone">
+												<div class="header bordered-darkpink"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-                                        <div id="dZUpload" class="dropzone">
-                                            <div class="header bordered-darkpink"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+						<div class="actions actions-footer" id="tabbedwizard-actions">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default btn-sm btn-prev">
+									<i class="fa fa-angle-left"></i>Prev
+								</button>
+								<button type="button" class="btn btn-default btn-sm btn-next"
+									data-last="Finish">
+									Next<i class="fa fa-angle-right"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- /Page Body -->
+	</div>
+	<!-- /Page Content -->
+	</div>
+	<!-- /Page Container -->
+	<!-- Main Container -->
+	</div>
+	<div th:replace="fragments/scripts :: script"></div>
 
-                    <div class="actions actions-footer" id="tabbedwizard-actions">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm btn-prev">
-                                <i class="fa fa-angle-left"></i>Prev
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm btn-next"
-                                    data-last="Finish">
-                                Next<i class="fa fa-angle-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- /Page Body -->
-</div>
-<!-- /Page Content -->
-</div>
-<!-- /Page Container -->
-<!-- Main Container -->
-</div>
-<div th:replace="fragments/scripts :: script"></div>
-
-<!--Page Related Scripts-->
-<script src="/assets/js/fuelux/wizard/wizard-custom.js"></script>
-<script src="/assets/js/toastr/toastr.js"></script>
-<!--Bootstrap Date Picker-->
-<script src="/assets/js/datetime/bootstrap-datepicker.js"></script>
-<!--Fuelux Spinbox-->
-<script src="/assets/js/fuelux/spinbox/fuelux.spinbox.min.js"></script>
-<!--Dropzone-->
-<script src="/assets/js/dropzone/dropzone.min.js"></script>
+	<!--Page Related Scripts-->
+	<script src="/assets/js/fuelux/wizard/wizard-custom.js"></script>
+	<script src="/assets/js/toastr/toastr.js"></script>
+	<!--Bootstrap Date Picker-->
+	<script src="/assets/js/datetime/bootstrap-datepicker.js"></script>
+	<!--Fuelux Spinbox-->
+	<script src="/assets/js/fuelux/spinbox/fuelux.spinbox.min.js"></script>
+	<!--Dropzone-->
+	<script src="/assets/js/dropzone/dropzone.min.js"></script>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		jQuery(function($) {
 			$('#simplewizardinwidget').wizard();
 			$('#simplewizard').wizard();
@@ -295,9 +281,8 @@
 			$("#dZUpload").dropzone({
 				url : "hn_SimpeFileUploader.ashx",
 				addRemoveLinks : true,
-				acceptedFiles: ".png, .jpg , .pdf",
-				success : function(file, response)
-				{
+				acceptedFiles : ".png, .jpg , .pdf",
+				success : function(file, response) {
 					var imgName = response;
 					file.previewElement.classList.add("dz-success");
 					console.log("Successfully uploaded :" + imgName);
@@ -307,8 +292,7 @@
 				}
 			});
 		});
-
-</script>
+	</script>
 
 </body>
 <!--  /Body -->
