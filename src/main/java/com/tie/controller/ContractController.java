@@ -26,6 +26,8 @@ import com.tie.service.ContactService;
 import com.tie.service.ContactServiceImpl;
 import com.tie.service.ContractService;
 import com.tie.service.ContractServiceImpl;
+import com.tie.service.DealService;
+import com.tie.service.DealServiceImpl;
 import com.tie.service.MagService;
 import com.tie.service.MagServiceImpl;
 import com.tie.service.UserService;
@@ -33,14 +35,11 @@ import com.tie.service.UserService;
 @Controller
 public class ContractController {
 
-
-
 	@Autowired
 	private ContractService contractService = new ContractServiceImpl();
 	@Autowired
-    private UserService userService;
+	private UserService userService;
 
-	
 	@RequestMapping(value = "/contract/new", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -64,7 +63,7 @@ public class ContractController {
 		Contract contract = new Contract();
 		Set<Contact> contacts = null;
 		Contact contact = new Contact();
-		Set<Deal> contractDeals;
+		Set<Deal> contractDeals = null;
 		Deal deal;
 		Set<Mag> contractMags = null;
 		Mag mag;
@@ -92,60 +91,75 @@ public class ContractController {
 				calendarEnd.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
 				calendarEnd.add(Calendar.YEAR, i + 1);
 				mag.setValidTo(calendarEnd.getTime());
+				magService.saveMag(mag);
 				contractMags.add(mag);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
 		contract.setMags(contractMags);
-		
-		for (int i=0; i< deals.size(); i++) {
-			
+
+		for (int i = 0; i < deals.size(); i++) {
+			DealService dealService = new DealServiceImpl();
+			deal = new Deal();
+			deal = dealService.findOneByName(deals.get(i));
+			contractDeals.add(deal);
 		}
-		
-		
-		
-		
+		contract.setDeals(contractDeals);
+
+		contract.setAccountNo(contractNumber);
+		contract.setArea(Integer.parseInt(shopArea));
+		contract.setDuration(Integer.parseInt(duration));
+		contract.setHardCopyPath(fileUpload);
+		try {
+			contract.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		contract.setStatus("Pending");
+		contract.setType(contractType);
+
+		contractService.saveContract(contract);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("contract");
 		return modelAndView;
 	}
 
-    @RequestMapping(value = "/contract", method = RequestMethod.GET)
-    public ModelAndView contractList() {
-        ModelAndView modelAndView = new ModelAndView();
-        List<Contract> contracts = contractService.findAll();
-        modelAndView.addObject("contracts", contracts);
+	@RequestMapping(value = "/contract", method = RequestMethod.GET)
+	public ModelAndView contractList() {
+		ModelAndView modelAndView = new ModelAndView();
+		List<Contract> contracts = contractService.findAll();
+		modelAndView.addObject("contracts", contracts);
 
+		modelAndView.addObject("currentUser", getCurrentUser());
 
-        modelAndView.addObject("currentUser",  getCurrentUser());
+		modelAndView.setViewName("contract_list");
+		return modelAndView;
+	}
 
-        modelAndView.setViewName("contract_list");
-        return modelAndView;
-    }
+	@RequestMapping(value = "/contract/{contractId}", method = RequestMethod.GET)
+	public ModelAndView contractView(@PathVariable("contractId") String contractId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("currentUser", getCurrentUser());
+		modelAndView.addObject("contract", contractService.findOne(contractId));
+		modelAndView.setViewName("contract_view");
+		return modelAndView;
+	}
 
-    @RequestMapping(value = "/contract/{contractId}", method = RequestMethod.GET)
-    public ModelAndView contractView(@PathVariable("contractId") String contractId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("currentUser",  getCurrentUser());
-        modelAndView.addObject("contract",contractService.findOne(contractId));
-        modelAndView.setViewName("contract_view");
-        return modelAndView;
-    }
+	@RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.GET)
+	public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("contract", contractService.findOne(contractId));
+		modelAndView.addObject("currentUser", getCurrentUser());
 
-    @RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.GET)
-    public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("contract",contractService.findOne(contractId));
-        modelAndView.addObject("currentUser",  getCurrentUser());
+		modelAndView.setViewName("contract_edit");
+		return modelAndView;
+	}
 
-        modelAndView.setViewName("contract_edit");
-        return modelAndView;
-    }
-
-    public User getCurrentUser(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        return user;
-    }
+	public User getCurrentUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findUserByEmail(auth.getName());
+		return user;
+	}
 }
