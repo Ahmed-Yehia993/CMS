@@ -25,3 +25,9 @@ hs_err_pid*
 
 # properties files
 *.properties
+
+# other files
+.project
+.classpath
+.settings/
+src/main/resources/application.properties
