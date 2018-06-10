@@ -245,7 +245,7 @@ CREATE TABLE `user` (
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,8 +254,35 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,1,'ahmedyehiamokhtar@gmail.com','Ahmed Yehia mokhtar','$2a$10$9Q4Aooth/1uQDQyXMg406.UVvsnvZUin8misAcOgfMNYtml8MaQ4i'),(3,1,'ahmedeldeeb@gmail.com','Ahmed El-Deeb','$2a$10$yrNtsOpwfdmZlBnT./L08e2jPghBgpDF/w125uhxrsdFJIm.EGdCG'),(4,1,'abdoelsayed@gmail.com','abdoelsayed','$2a$10$w6fdl0pb8P1tkORFYVNuquR9Ss6/Z9.EosC6lOxe.8K0jyFVw4HOa');
+INSERT INTO `user` VALUES (2,1,'ahmedyehiamokhtar@gmail.com','Ahmed Yehia mokhtar','$2a$10$9Q4Aooth/1uQDQyXMg406.UVvsnvZUin8misAcOgfMNYtml8MaQ4i'),(3,1,'ahmedeldeeb@gmail.com','Ahmed','$2a$10$yrNtsOpwfdmZlBnT./L08e2jPghBgpDF/w125uhxrsdFJIm.EGdCG'),(4,1,'abdoelsayed@gmail.com','abdoelsayed','$2a$10$w6fdl0pb8P1tkORFYVNuquR9Ss6/Z9.EosC6lOxe.8K0jyFVw4HOa'),(5,1,'eng.ahmedyehia93@gmail.com','AhmedYehia93','$2a$10$YMB/9cWlYkNGmHGYf3HZfOZ54t3K.WXpGt5MNQDPbcB5I2YzTSMc2');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_role`
+--
+
+DROP TABLE IF EXISTS `user_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_role` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `FKa68196081fvovjhkek5m97n3y` (`role_id`),
+  CONSTRAINT `FK859n2jvi8ivhui0rl0esws6o` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FKa68196081fvovjhkek5m97n3y` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_role`
+--
+
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (2,1),(3,1),(5,1);
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -267,4 +294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-06-10  3:31:27
+-- Dump completed on 2018-06-10  3:50:23
