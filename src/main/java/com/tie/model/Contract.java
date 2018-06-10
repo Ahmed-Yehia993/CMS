@@ -41,7 +41,7 @@ public class Contract {
 	@Column(name = "status")
 	private String status;
 	@Column(name = "type")
-	private String Type;
+	private String type;
 	@Column(name = "file_path")
 	private String hardCopyPath;
 
@@ -100,11 +100,11 @@ public class Contract {
 	}
 
 	public String getType() {
-		return Type;
+		return type;
 	}
 
 	public void setType(String type) {
-		Type = type;
+		type = type;
 	}
 
 	public String getHardCopyPath() {
@@ -150,7 +150,7 @@ public class Contract {
 	@Override
 	public String toString() {
 		return "Contract{" + "id=" + id + ", accountNo='" + accountNo + '\'' + ", startDate=" + startDate
-				+ ", duration=" + duration + ", status='" + status + '\'' + ", Type='" + Type + '\''
+				+ ", duration=" + duration + ", status='" + status + '\'' + ", type='" + type + '\''
 				+ ", hardCopyPath='" + hardCopyPath + '\'' + ", contact=" + contact + ", area=" + area + ", deals="
 				+ deals + ", mags=" + mags + '}';
 	}

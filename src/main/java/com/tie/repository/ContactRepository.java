@@ -11,6 +11,6 @@ import com.tie.model.Contact;
  * @author Ahmed El-Deeb
  *
  */
-public interface ContactRepository extends JpaRepository<Contact, Long> {
+public interface ContactRepository extends JpaRepository<Contact, Integer> {
 
 }

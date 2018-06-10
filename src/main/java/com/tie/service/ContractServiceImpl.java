@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.tie.service;
 
@@ -13,30 +13,27 @@ import com.tie.repository.ContractRepository;
 
 /**
  * @author Ahmed El-Deeb
- *
  */
 
 @Service("contractService")
 public class ContractServiceImpl implements ContractService {
 
-	@Autowired
-	private ContractRepository contractRepository;
+    @Autowired
+    private ContractRepository contractRepository;
 
-	@Override
-	public void saveContract(Contract contract) {
-		contractRepository.save(contract);
-	}
+    @Override
+    public void saveContract(Contract contract) {
+        contractRepository.save(contract);
+    }
 
-	@Override
-	public List<Contract> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Contract> findAll() {
+        return contractRepository.findAll();
+    }
 
-	@Override
-	public Contract findOne() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Contract findOne(String contractId) {
+        return contractRepository.findOne(Integer.parseInt(contractId));
+    }
 
 }

@@ -4,10 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,19 +21,26 @@ import com.tie.model.Contact;
 import com.tie.model.Contract;
 import com.tie.model.Deal;
 import com.tie.model.Mag;
+import com.tie.model.User;
 import com.tie.service.ContactService;
 import com.tie.service.ContactServiceImpl;
 import com.tie.service.ContractService;
 import com.tie.service.ContractServiceImpl;
 import com.tie.service.MagService;
 import com.tie.service.MagServiceImpl;
+import com.tie.service.UserService;
 
 @Controller
 public class ContractController {
 
+
+
 	@Autowired
 	private ContractService contractService = new ContractServiceImpl();
+	@Autowired
+    private UserService userService;
 
+	
 	@RequestMapping(value = "/contract/new", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -100,4 +111,41 @@ public class ContractController {
 		return modelAndView;
 	}
 
+    @RequestMapping(value = "/contract", method = RequestMethod.GET)
+    public ModelAndView contractList() {
+        ModelAndView modelAndView = new ModelAndView();
+        List<Contract> contracts = contractService.findAll();
+        modelAndView.addObject("contracts", contracts);
+
+
+        modelAndView.addObject("currentUser",  getCurrentUser());
+
+        modelAndView.setViewName("contract_list");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/contract/{contractId}", method = RequestMethod.GET)
+    public ModelAndView contractView(@PathVariable("contractId") String contractId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("currentUser",  getCurrentUser());
+        modelAndView.addObject("contract",contractService.findOne(contractId));
+        modelAndView.setViewName("contract_view");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.GET)
+    public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("contract",contractService.findOne(contractId));
+        modelAndView.addObject("currentUser",  getCurrentUser());
+
+        modelAndView.setViewName("contract_edit");
+        return modelAndView;
+    }
+
+    public User getCurrentUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        return user;
+    }
 }
