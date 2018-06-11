@@ -37,13 +37,13 @@
 								Info.<span class="chevron"></span></li>
 							<li data-target="#tabbedwizardstep3"><span class="step">3</span>Profile/Services<span
 								class="chevron"></span></li>
-							<li data-target="#tabbedwizardstep4"><span class="step">4</span>MAG<span
-								class="chevron"></span></li>
+							<li data-target="#tabbedwizardstep4" class="magWizerd"><span
+								class="step">4</span>MAG<span class="chevron"></span></li>
 							<li data-target="#tabbedwizardstep5"><span class="step">5</span>Contract
 								Copy<span class="chevron"></span></li>
 						</ul>
 					</div>
-					<form th:action="@{/contract/new}" method="POST" autocomplete="on" id="wizeredForm">
+					<form th:action="@{/contract/new}" method="POST" id="wizeredForm">
 
 						<div class="step-content" id="tabbedwizardsteps">
 							<div class="step-pane active" id="tabbedwizardstep1">
@@ -140,8 +140,7 @@
 									</div>
 									<div class="form-group col-md-6">
 										<label for="deals">Contract Services</label> <select
-											name="deals" id="deals" class="form-control input-sm"
-											multiple size="8">
+											class="deals" name="deals" id="deals" onchange="getSelectedOptions(this)" class="form-control input-sm" multiple size="8">
 											<option value="bac_iptv_monthly">bac_iptv_monthly</option>
 											<option value="bac_util_power">bac_util_power</option>
 											<option value="bac_util_water">bac_util_water</option>
@@ -156,7 +155,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="step-pane" id="tabbedwizardstep4">
+							<div class="step-pane magWizerd" id="tabbedwizardstep4">
 								<div class="row form-group col-md-6">
 									<button class="add_field_button btn btn-palegreen btn-sm">Add
 										One MAG</button>
@@ -226,10 +225,17 @@
 		jQuery(function($) {
 			$('#simplewizardinwidget').wizard();
 			$('#simplewizard').wizard();
-			$('#tabbedwizard').wizard().on('finished',	function(e) {
-			    $("#wizeredForm").submit();					
-				Notify(	'Thank You! All of your information saved successfully.','bottom-right', '5000', 'blue','fa-check', true);
-			});
+			$('#tabbedwizard')
+					.wizard()
+					.on(
+							'finished',
+							function(e) {
+								$("#wizeredForm").submit();
+								Notify(
+										'Thank You! All of your information saved successfully.',
+										'bottom-right', '5000', 'blue',
+										'fa-check', true);
+							});
 			$('#WiredWizard').wizard();
 		});
 
@@ -286,6 +292,27 @@
 				}
 			});
 		});
+		function getComboA(selectObject) {
+		    var value = selectObject.value;
+		    alert(value);
+		}
+	/*	
+		function getSelectedOptions(sel) {
+			  var opts = [],
+			    opt;
+			    alert(opts.value);
+			  var len = sel.options.length;
+			  for (var i = 0; i < len; i++) {
+			    opt = sel.options[i];
+			    if (opt.selected) {
+			      opts.push(opt);
+			      
+			    }
+			  }
+
+			  return opts;
+			}
+*/		
 	</script>
 
 </body>

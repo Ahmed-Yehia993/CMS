@@ -104,7 +104,7 @@ public class Contract {
 	}
 
 	public void setType(String type) {
-		type = type;
+		this.type = type;
 	}
 
 	public String getHardCopyPath() {

@@ -3,6 +3,7 @@ package com.tie.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,13 +23,8 @@ import com.tie.model.Contract;
 import com.tie.model.Deal;
 import com.tie.model.Mag;
 import com.tie.model.User;
-import com.tie.service.ContactService;
-import com.tie.service.ContactServiceImpl;
 import com.tie.service.ContractService;
 import com.tie.service.DealService;
-import com.tie.service.DealServiceImpl;
-import com.tie.service.MagService;
-import com.tie.service.MagServiceImpl;
 import com.tie.service.UserService;
 
 @Controller
@@ -38,6 +34,8 @@ public class ContractController {
 	private ContractService contractService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private DealService dealService;
 
 	@RequestMapping(value = "/contract/new", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -72,24 +70,38 @@ public class ContractController {
 	}
 
 	@RequestMapping(value = "/contract/new", method = RequestMethod.POST)
-	public ModelAndView create(@RequestParam("contractNumber") String contractNumber,
+	public String create(@RequestParam("contractNumber") String contractNumber,
 			@RequestParam("contractType") String contractType, @RequestParam("contractStart") String contractStart,
 			@RequestParam("duration") String duration, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("emailAddress") String emailAddress,
 			@RequestParam("zip") String zip, @RequestParam("address") String address, @RequestParam("city") String city,
 			@RequestParam("country") String country, @RequestParam("shopArea") String shopArea,
-			@RequestParam("deals") String[] deals, @RequestParam("mag[]") String[] mags,
-			@RequestParam("fileUpload") String fileUpload) {
+			@RequestParam(value = "deals", required = true) String[] deals,
+			@RequestParam(value = "mag[]", required = true) String[] mags
+	// @RequestParam("fileUpload") String fileUpload
+	) {
 
-		ContactService contactService = new ContactServiceImpl();
-		MagService magService = new MagServiceImpl();
+		System.out.println(contractNumber);
+		System.out.println(contractType);
+		System.out.println(contractStart);
+		System.out.println(duration);
+		System.out.println(firstName);
+		System.out.println(lastName);
+		System.out.println(emailAddress);
+		System.out.println(zip);
+		System.out.println(address);
+		System.out.println(city);
+		System.out.println(country);
+		System.out.println(shopArea);
+//		System.out.println(deals[1]);
+//		System.out.println(mags[1]);
 
 		Contract contract = new Contract();
-		Set<Contact> contacts = null;
+		Set<Contact> contacts = new HashSet<>();
 		Contact contact = new Contact();
-		Set<Deal> contractDeals = null;
+		Set<Deal> contractDeals = new HashSet<>();
 		Deal deal;
-		Set<Mag> contractMags = null;
+		Set<Mag> contractMags = new HashSet<>();
 		Mag mag;
 
 		contact.setAddress(address);
@@ -99,23 +111,21 @@ public class ContractController {
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		contact.setZipCode(zip);
-		contactService.saveContact(contact);
 		contacts.add(contact);
 		contract.setContact(contacts);
 
-		for (int i = 0; i < mags.length; i++) {
+		for (int i = 1; i < mags.length; i++) {
 			mag = new Mag();
 			mag.setAmount(Integer.parseInt(mags[i]));
 			try {
 				Calendar calendarStart = Calendar.getInstance();
 				Calendar calendarEnd = Calendar.getInstance();
 				calendarStart.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
-				calendarStart.add(Calendar.YEAR, i);
+				calendarStart.add(Calendar.YEAR, i - 1);
 				mag.setValidFrom(calendarStart.getTime());
 				calendarEnd.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
-				calendarEnd.add(Calendar.YEAR, i + 1);
+				calendarEnd.add(Calendar.YEAR, i);
 				mag.setValidTo(calendarEnd.getTime());
-				magService.saveMag(mag);
 				contractMags.add(mag);
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -124,7 +134,6 @@ public class ContractController {
 		contract.setMags(contractMags);
 
 		for (int i = 0; i < deals.length; i++) {
-			DealService dealService = new DealServiceImpl();
 			deal = new Deal();
 			deal = dealService.findOneByName(deals[i]);
 			contractDeals.add(deal);
@@ -134,20 +143,19 @@ public class ContractController {
 		contract.setAccountNo(contractNumber);
 		contract.setArea(Integer.parseInt(shopArea));
 		contract.setDuration(Integer.parseInt(duration));
-		contract.setHardCopyPath(fileUpload);
 		try {
 			contract.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		contract.setStatus("Pending");
+		contract.setStatus("PENDING");
 		contract.setType(contractType);
-
+		
+		System.out.println(contract);
 		contractService.saveContract(contract);
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("contract");
-		return modelAndView;
+
+		return "redirect:/contract";
 	}
 
 	@RequestMapping(value = "/contract", method = RequestMethod.GET)
