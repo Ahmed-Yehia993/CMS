@@ -8,4 +8,5 @@ public interface ContractService {
 	public void saveContract(Contract contract);
 	public List<Contract> findAll();
 	Contract findOne(String contractId);
+	public void update(Contract contract);
 }

@@ -37,6 +37,9 @@ public class Contact {
 	@Column(name = "email_address")
 	private String emailAddress;
 
+	@Column(name = "phone_number")
+	private String phoneNumber;
+
 	public int getId() {
 		return id;
 	}
@@ -101,14 +104,26 @@ public class Contact {
 		this.emailAddress = emailAddress;
 	}
 
-	@Override
-	public String toString() {
-		return "Contact [id=" + id + ", " + (firstName != null ? "firstName=" + firstName + ", " : "")
-				+ (lastName != null ? "lastName=" + lastName + ", " : "")
-				+ (zipCode != null ? "zipCode=" + zipCode + ", " : "")
-				+ (country != null ? "country=" + country + ", " : "") + (city != null ? "city=" + city + ", " : "")
-				+ (address != null ? "address=" + address + ", " : "")
-				+ (emailAddress != null ? "emailAddress=" + emailAddress : "") + "]";
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "Contact{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", zipCode='" + zipCode + '\'' +
+				", country='" + country + '\'' +
+				", city='" + city + '\'' +
+				", address='" + address + '\'' +
+				", emailAddress='" + emailAddress + '\'' +
+				", phoneNumber='" + phoneNumber + '\'' +
+				'}';
+	}
 }

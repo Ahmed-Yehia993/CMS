@@ -2,7 +2,9 @@
 
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <!-- Head -->
 <head th:replace="fragments/style :: head"></head>
 <!-- /Head -->
@@ -41,7 +43,8 @@
                         <div class="col-xs-6 text-right">
                             <h1>
                                 <a href="">
-                                    <img src="/assets/img/logo43.png" alt="" style="width:200px; height:45px; margin-right:-17px" />
+                                    <img src="/assets/img/logo43.png" alt=""
+                                         style="width:200px; height:45px; margin-right:-17px"/>
                                 </a>
                             </h1>
                             <div>
@@ -69,6 +72,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li>Contract Number: <span th:text="${contract.accountNo}"></span></li>
+                                        <li>Company Name: <span th:text="${contract.companyName}"></span></li>
                                         <li>Contract Type: <span th:text="${contract.type}"></span></li>
                                         <li>Contract Start Date: <span th:text="${contract.startDate}"></span></li>
                                         <li>Contract Duration (Years): <span th:text="${contract.duration}"></span></li>
@@ -86,8 +90,10 @@
                                     <ul th:each="p : *{contract.contact}">
                                         <li>First Name: <span th:text="${p.firstName}"></span></li>
                                         <li>Last Name: <span th:text="${p.lastName}"></span></li>
+                                        <li>Phone Number: <span th:text="${p.phoneNumber}"></span></li>
                                         <li>Email : <span th:text="${p.emailAddress}"></span></li>
-                                        <li>Location: <span th:text="${p.country}"></span>, <span th:text="${p.city}"></span>, <span th:text="${p.address}"></span></li>
+                                        <li>Location: <span th:text="${p.country}"></span>, <span
+                                                th:text="${p.city}"></span>, <span th:text="${p.address}"></span></li>
                                         <li>Zip Code: <span th:text="${p.zipCode}"></span></li>
 
                                     </ul>
@@ -96,7 +102,7 @@
                         </div>
                     </div> <!-- / end client details section -->
 
-                    <hr class="wide" />
+                    <hr class="wide"/>
                     <div class="row">
                         <div class="col-xs-5">
                             <div class="panel panel-default">
@@ -119,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="wide" />
+                    <hr class="wide"/>
                     <div class="row">
 
                         <table class="table table-bordered table-striped">
@@ -140,13 +146,22 @@
                             </tbody>
                         </table>
                     </div>
+                    <hr class="wide"/>
+                    <div class="row" th:if="${currentUser.roles[0].role == 'ADMIN'}">
+                        <div class=".col-xs-12 .col-md-8" ></div>
+                        <div class=".col-xs-6 .col-md-4" style="float:right;">
+                            <a class="btn btn-danger"  th:href="@{'/contract/' +${contract.id} +'/reject'}"><i class="fa fa-times"></i> Rejected</a>
+                            <a class="btn btn-success" th:href="@{'/contract/' +${contract.id} +'/approve'}">Approve <i
+                                    class="fa fa-check right"></i></a>
+                        </div>
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <div th:replace="fragments/scripts :: script"></div>
+<div th:replace="fragments/scripts :: script"></div>
 
 
 </body>
