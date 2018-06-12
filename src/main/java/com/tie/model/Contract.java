@@ -6,18 +6,7 @@ package com.tie.model;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author Ahmed El-Deeb
@@ -35,6 +24,7 @@ public class Contract {
 	@Column(name = "account_no")
 	private String accountNo;
 	@Column(name = "start_date")
+	@Temporal(TemporalType.DATE)
 	private Date startDate;
 	@Column(name = "duration")
 	private int duration;
@@ -44,6 +34,8 @@ public class Contract {
 	private String type;
 	@Column(name = "file_path")
 	private String hardCopyPath;
+	@Column(name = "company_name")
+	private String companyName;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<Contact> contact;
@@ -59,6 +51,18 @@ public class Contract {
 	@JoinTable(name = "contract_mags", joinColumns = @JoinColumn(name = "contract_id"), inverseJoinColumns = @JoinColumn(name = "mag_id"))
 	private Set<Mag> mags;
 
+	private Date created;
+	private Date updated;
+
+	@PrePersist
+	private void onCreate() {
+		this.created = new Date();
+	}
+
+	@PreUpdate
+	private void onUpdate() {
+		this.updated = new Date();
+	}
 	public int getId() {
 		return id;
 	}
@@ -147,11 +151,47 @@ public class Contract {
 		this.mags = mags;
 	}
 
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
+
 	@Override
 	public String toString() {
-		return "Contract{" + "id=" + id + ", accountNo='" + accountNo + '\'' + ", startDate=" + startDate
-				+ ", duration=" + duration + ", status='" + status + '\'' + ", type='" + type + '\''
-				+ ", hardCopyPath='" + hardCopyPath + '\'' + ", contact=" + contact + ", area=" + area + ", deals="
-				+ deals + ", mags=" + mags + '}';
+		return "Contract{" +
+				"id=" + id +
+				", accountNo='" + accountNo + '\'' +
+				", startDate=" + startDate +
+				", duration=" + duration +
+				", status='" + status + '\'' +
+				", type='" + type + '\'' +
+				", hardCopyPath='" + hardCopyPath + '\'' +
+				", companyName='" + companyName + '\'' +
+				", contact=" + contact +
+				", area=" + area +
+				", deals=" + deals +
+				", mags=" + mags +
+				", created=" + created +
+				", updated=" + updated +
+				'}';
 	}
 }

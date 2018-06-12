@@ -21,8 +21,11 @@ public class Mag {
 	@Column(name = "amount")
 	private long amount;
 	@Column(name = "valid_from")
+	@Temporal(TemporalType.DATE)
 	private Date validFrom;
+
 	@Column(name = "valid_to")
+	@Temporal(TemporalType.DATE)
 	private Date validTo;
 
 	public int getId() {

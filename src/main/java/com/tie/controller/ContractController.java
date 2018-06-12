@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.tie.model.*;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,11 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tie.model.Contact;
-import com.tie.model.Contract;
-import com.tie.model.Deal;
-import com.tie.model.Mag;
-import com.tie.model.User;
 import com.tie.service.ContractService;
 import com.tie.service.DealService;
 import com.tie.service.UserService;
@@ -75,7 +71,7 @@ public class ContractController {
 			@RequestParam("duration") String duration, @RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName, @RequestParam("emailAddress") String emailAddress,
 			@RequestParam("zip") String zip, @RequestParam("address") String address, @RequestParam("city") String city,
-			@RequestParam("country") String country, @RequestParam("shopArea") String shopArea,
+			@RequestParam("country") String country, @RequestParam("shopArea") String shopArea,@RequestParam("companyName") String companyName,@RequestParam("phoneNumber") String phoneNumber,
 			@RequestParam(value = "deals", required = true) String[] deals,
 			@RequestParam(value = "mag[]", required = true) String[] mags
 	// @RequestParam("fileUpload") String fileUpload
@@ -111,6 +107,7 @@ public class ContractController {
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
 		contact.setZipCode(zip);
+		contact.setPhoneNumber(phoneNumber);
 		contacts.add(contact);
 		contract.setContact(contacts);
 
@@ -143,13 +140,14 @@ public class ContractController {
 		contract.setAccountNo(contractNumber);
 		contract.setArea(Integer.parseInt(shopArea));
 		contract.setDuration(Integer.parseInt(duration));
+		contract.setCompanyName(companyName);
 		try {
 			contract.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		contract.setStatus("PENDING");
+		contract.setStatus(String.valueOf(ContractStatus.PENDING));
 		contract.setType(contractType);
 		
 		System.out.println(contract);
@@ -168,6 +166,24 @@ public class ContractController {
 
 		modelAndView.setViewName("contract_list");
 		return modelAndView;
+	}
+	@RequestMapping(value = "/contract/{contractId}/approve", method = RequestMethod.GET)
+	public String approve(@PathVariable("contractId") String contractId) {
+
+		Contract contract = contractService.findOne(contractId);
+		contract.setStatus(String.valueOf(ContractStatus.APPROVED));
+		contractService.update(contract);
+
+		return "redirect:/contract";
+	}
+	@RequestMapping(value = "/contract/{contractId}/reject", method = RequestMethod.GET)
+	public String reject(@PathVariable("contractId") String contractId) {
+
+		Contract contract = contractService.findOne(contractId);
+		contract.setStatus(String.valueOf(ContractStatus.REJECTED));
+		contractService.update(contract);
+
+		return "redirect:/contract";
 	}
 
 	public User getCurrentUser() {

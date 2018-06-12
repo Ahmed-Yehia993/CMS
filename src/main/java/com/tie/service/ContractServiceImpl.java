@@ -6,6 +6,7 @@ package com.tie.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.tie.model.Contact;
@@ -43,7 +44,7 @@ public class ContractServiceImpl implements ContractService {
 
 	@Override
 	public List<Contract> findAll() {
-		return contractRepository.findAll();
+		return contractRepository.findAll(sortByIdAsc());
 	}
 
 	@Override
@@ -51,4 +52,12 @@ public class ContractServiceImpl implements ContractService {
 		return contractRepository.findOne(Integer.parseInt(contractId));
 	}
 
+	@Override
+	public void update(Contract contract) {
+		contractRepository.save(contract);
+	}
+
+	private Sort sortByIdAsc() {
+		return new Sort(Sort.Direction.DESC, "created");
+	}
 }

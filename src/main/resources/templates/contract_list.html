@@ -81,6 +81,9 @@
                                         Account number
                                     </th>
                                     <th>
+                                        Company Name
+                                    </th>
+                                    <th>
                                         Contract Type
                                     </th>
                                     <th>
@@ -98,6 +101,7 @@
                                 <tbody>
                                 <tr th:each="p : *{contracts}">
                                     <td th:text="*{p.accountNo}"></td>
+                                    <td th:text="*{p.companyName}"></td>
                                     <td th:text="*{p.type}"></td>
                                     <td th:text="*{p.area}"></td>
                                     <td th:text="*{p.status}"></td>
