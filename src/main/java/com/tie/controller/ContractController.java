@@ -171,7 +171,7 @@ public class ContractController {
 	public String approve(@PathVariable("contractId") String contractId) {
 
 		Contract contract = contractService.findOne(contractId);
-		contract.setStatus(String.valueOf(ContractStatus.APPROVED));
+		contract.setStatus(String.valueOf(ContractStatus.ACTIVE));
 		contractService.update(contract);
 
 		return "redirect:/contract";
