@@ -9,10 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import com.tie.model.Mag;
-import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -62,7 +59,6 @@ public class BRMCaller {
                     }
                     else if (myNodeist.item(j).getNodeName().equals("brm:POID") ) {
                         balGrpObj = myNodeist.item(j).getTextContent();
-
                     }
                 }
                 accuntDetails.put(balGrpName,balGrpObj);

@@ -45,7 +45,5 @@ public class ConsumeBillService {
         } catch (RemoteException |ServiceException  e) {
             e.printStackTrace();
         }
-
-
     }
 }
