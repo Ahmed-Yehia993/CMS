@@ -274,7 +274,7 @@ public class ConsumeCustomerService {
 		try {
             System.out.println("createCustomerService" + xmlRequest);
 			xmlResponse = serviceLocator.getBRMCustServices().pcmOpCustCreateCustomer(0, xmlRequest);
-            System.out.println("createCustomerService" + xmlRequest);
+            System.out.println("createCustomerService" + xmlResponse);
 		} catch (RemoteException | ServiceException e) {
 			e.printStackTrace();
 		}

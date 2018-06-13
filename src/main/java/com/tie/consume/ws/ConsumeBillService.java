@@ -39,7 +39,9 @@ public class ConsumeBillService {
                 + "    </PCM_OP_BILL_MAKE_BILL_NOW_inputFlist>\r\n"
                 ;
         try {
+            System.out.println("makeBillNowService" + xmlRequest);
             String xmlResponse = serviceLocator.getBRMBillServices().pcmOpBillMakeBillNow(0,xmlRequest);
+            System.out.println("makeBillNowService" + xmlResponse);
         } catch (RemoteException |ServiceException  e) {
             e.printStackTrace();
         }
