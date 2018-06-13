@@ -3,6 +3,8 @@
  */
 package com.tie.model;
 
+import org.hibernate.annotations.SortComparator;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -47,6 +49,7 @@ public class Contract {
 	@JoinTable(name = "contract_deals", joinColumns = @JoinColumn(name = "contract_id"), inverseJoinColumns = @JoinColumn(name = "deal_id"))
 	private Set<Deal> deals;
 
+	@OrderBy("validFrom ASC")
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "contract_mags", joinColumns = @JoinColumn(name = "contract_id"), inverseJoinColumns = @JoinColumn(name = "mag_id"))
 	private Set<Mag> mags;

@@ -44,7 +44,7 @@ public class ContractServiceImpl implements ContractService {
 
 	@Override
 	public List<Contract> findAll() {
-		return contractRepository.findAll(sortByIdAsc());
+		return contractRepository.findAll(sortByIdDESC());
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class ContractServiceImpl implements ContractService {
 		contractRepository.save(contract);
 	}
 
-	private Sort sortByIdAsc() {
+	private Sort sortByIdDESC() {
 		return new Sort(Sort.Direction.DESC, "created");
 	}
 }

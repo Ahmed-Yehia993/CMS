@@ -76,42 +76,30 @@
                             </div>
                             <table class="table table-striped table-hover table-bordered" id="editabledatatable">
                                 <thead>
-                                <tr role="row">
-                                    <th>
-                                        Account number
-                                    </th>
-                                    <th>
-                                        Company Name
-                                    </th>
-                                    <th>
-                                        Contract Type
-                                    </th>
-                                    <th>
-                                        Shop Area (SQM)
-                                    </th>
-                                    <th>
-                                        Status
-                                    </th>
-                                    <th>
-
-                                    </th>
-                                </tr>
+                                    <tr role="row">
+                                        <th>Account number</th>
+                                        <th>Company Name</th>
+                                        <th>Contract Type</th>
+                                        <th>Shop Area (SQM)</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr th:each="p : *{contracts}">
-                                    <td th:text="*{p.accountNo}"></td>
-                                    <td th:text="*{p.companyName}"></td>
-                                    <td th:text="*{p.type}"></td>
-                                    <td th:text="*{p.area}"></td>
-                                    <td th:text="*{p.status}"></td>
-                                    <td>
-                                        <a th:href="@{'/contract/'+*{p.id} + '/edit'}" class="btn btn-info btn-xs "><i
+                                    <tr role="row" th:each="p : *{contracts}">
+                                        <td th:text="*{p.accountNo}"></td>
+                                        <td th:text="*{p.companyName}"></td>
+                                        <td th:text="*{p.type}"></td>
+                                        <td th:text="*{p.area}"></td>
+                                        <td th:text="*{p.status}"></td>
+                                        <td>
+                                            <a th:href="@{'/contract/'+*{p.id} + '/edit'}" class="btn btn-info btn-xs "><i
                                                 class="fa fa-edit"></i> Edit</a>
-                                        <a th:href="@{'/contract/'+*{p.id} }" class="btn btn-palegreen btn-xs view"><i
+                                            <a th:href="@{'/contract/'+*{p.id} }" class="btn btn-palegreen btn-xs view"><i
                                                 class="fa fa-eye"></i> view</a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
                                 </tbody>
                             </table>
@@ -130,7 +118,6 @@
             <script src="/assets/js/datatable/datatables-init.js"></script>
             <script>
                 InitiateEditableDataTable.init();
-
             </script>
 
 </body>

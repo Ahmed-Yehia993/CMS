@@ -42,10 +42,10 @@
                         </div>
                         <div class="col-xs-6 text-right">
                             <h1>
-                                <a href="">
-                                    <img src="/assets/img/logo43.png" alt=""
-                                         style="width:200px; height:45px; margin-right:-17px"/>
-                                </a>
+                                <!--<a href="">-->
+                                    <!--<img src="/assets/img/logo43.png" alt=""-->
+                                         <!--style="width:200px; height:45px; margin-right:-17px"/>-->
+                                <!--</a>-->
                             </h1>
                             <div>
                                 <span>Contract:#</span>
@@ -124,6 +124,33 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h6>Contract Copy</h6>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="mail-attachments">
+                                        <ul>
+                                            <li>
+                                                <a th:href="@{|/contract/file/download?id=${contract.id}|}"
+                                                   class="thumb">
+                                                    <img src="/assets/img/downloadFile.png" style="height: 100px;">
+                                                </a>
+                                                <div class="links">
+                                                    <!--<a th:href="@{'/assets/uploadedFiles/' + ${contract.hardCopyPath}}" target="_blank">View</a> - -->
+                                                    <a th:href="@{|/contract/file/download?id=${contract.id}|}">Download</a>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
                     <hr class="wide"/>
                     <div class="row">
@@ -146,11 +173,14 @@
                             </tbody>
                         </table>
                     </div>
+
+
                     <hr class="wide"/>
-                    <div class="row" th:if="${currentUser.roles[0].role == 'ADMIN'}">
-                        <div class=".col-xs-12 .col-md-8" ></div>
+                    <div class="row" th:if="${currentUser.roles[0].role == 'ADMIN' && contract.status=='PENDING'}">
+                        <div class=".col-xs-12 .col-md-8"></div>
                         <div class=".col-xs-6 .col-md-4" style="float:right;">
-                            <a class="btn btn-danger"  th:href="@{'/contract/' +${contract.id} +'/reject'}"><i class="fa fa-times"></i> Rejected</a>
+                            <a class="btn btn-danger" th:href="@{'/contract/' +${contract.id} +'/reject'}"><i
+                                    class="fa fa-times"></i> Rejected</a>
                             <a class="btn btn-success" th:href="@{'/contract/' +${contract.id} +'/approve'}">Approve <i
                                     class="fa fa-check right"></i></a>
                         </div>
