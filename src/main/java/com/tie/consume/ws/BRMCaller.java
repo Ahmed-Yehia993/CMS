@@ -23,10 +23,8 @@ public class BRMCaller {
 
     public void createBrmAccount(Contract contract) throws IOException, SAXException, ParserConfigurationException {
         String xmlCustCreateResponse = consumeCustomerService.createCustomerService(contract);
-        System.out.println("AHMED : " +  xmlCustCreateResponse);
         String accountPoid = getAccountDetails(xmlCustCreateResponse).get("ACCOUNT_OBJ");
         String balGrbObj = getAccountDetails(xmlCustCreateResponse).get("Retail Revenue Sharing");
-        System.out.println(balGrbObj);
         int magCount = 0;
         for (Mag mag : contract.getMags()) {
             consumeBillService.makeBillDebitService(accountPoid,balGrbObj,1001001,mag.getAmount(),mag.getValidFrom().getTime()/1000, mag.getValidTo().getTime()/1000,magCount);
@@ -51,25 +49,23 @@ public class BRMCaller {
         String  accountPoid = accountPoidNode.item(0).getTextContent();
         accuntDetails.put("ACCOUNT_OBJ", accountPoid);
 
-        System.out.println("getAccountDetails  ACCOUNT_OBJ : " + accountPoid);
         NodeList balGrp = document.getElementsByTagName("brm:BAL_INFO");
         for (int i=0; i<balGrp.getLength();i++){
             if(balGrp.item(i).hasChildNodes()){
                 NodeList myNodeist = balGrp.item(i).getChildNodes();
+                String balGrpObj = "";
+                String balGrpName  = "";
                 for(int j=0;j< myNodeist.getLength();j++) {
-                    String balGrpName = "";
-                    String balGrpObj = "";
-                    if (myNodeist.item(j).getNodeName().equals("brm:NAME") ) {
-                        balGrpName = myNodeist.item(j).getTextContent();
-                        System.out.print( "getAccountDetails" +  balGrpName + " : ");
-                    }
-                    if (myNodeist.item(j).getNodeName().equals("brm:POID") ) {
-                        balGrpObj = myNodeist.item(j).getTextContent();
-                        System.out.println(balGrpObj);
-                    }
-                    accuntDetails.put(balGrpName,balGrpObj);
-                }
 
+                    if (myNodeist.item(j).getNodeName().equals("brm:NAME") ) {
+                        balGrpName  = myNodeist.item(j).getTextContent();
+                    }
+                    else if (myNodeist.item(j).getNodeName().equals("brm:POID") ) {
+                        balGrpObj = myNodeist.item(j).getTextContent();
+
+                    }
+                }
+                accuntDetails.put(balGrpName,balGrpObj);
             }
         }
         return accuntDetails;
