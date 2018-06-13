@@ -46,8 +46,8 @@ public class Contract {
 	private float area;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "contract_deals", joinColumns = @JoinColumn(name = "contract_id"), inverseJoinColumns = @JoinColumn(name = "deal_id"))
-	private Set<Deal> deals;
+	@JoinTable(name = "contract_packages", joinColumns = @JoinColumn(name = "contract_id"), inverseJoinColumns = @JoinColumn(name = "package_id"))
+	private Set<Package> packages;
 
 	@OrderBy("validFrom ASC")
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -138,12 +138,12 @@ public class Contract {
 		this.area = area;
 	}
 
-	public Set<Deal> getDeals() {
-		return deals;
+	public Set<Package> getPackages() {
+		return packages;
 	}
 
-	public void setDeals(Set<Deal> deals) {
-		this.deals = deals;
+	public void setPackages(Set<Package> packages) {
+		this.packages = packages;
 	}
 
 	public Set<Mag> getMags() {
@@ -191,7 +191,7 @@ public class Contract {
 				", companyName='" + companyName + '\'' +
 				", contact=" + contact +
 				", area=" + area +
-				", deals=" + deals +
+				", packages=" + packages +
 				", mags=" + mags +
 				", created=" + created +
 				", updated=" + updated +

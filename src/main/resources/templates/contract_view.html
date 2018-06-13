@@ -67,7 +67,7 @@
                         <div class="col-xs-5">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h6>Basic Info</h6>
+                                    <h6 class="row-title before-green"><strong>Basic Info.</strong></h6>
                                 </div>
                                 <div class="panel-body">
                                     <ul>
@@ -84,7 +84,7 @@
                         <div class="col-xs-7 ">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h6>Contact Info.</h6>
+                                    <h6 class="row-title before-blue"><strong>Contact Info.</strong></h6>
                                 </div>
                                 <div class="panel-body">
                                     <ul th:each="p : *{contract.contact}">
@@ -107,18 +107,17 @@
                         <div class="col-xs-5">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h6>Profile/Services</h6>
+                                    <h6 class="row-title before-orange"><strong>Profile/Services</strong></h6>
                                 </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li>Shop area <span th:text="${contract.area}"></span></li>
                                         <li>Contract Services:
                                             <ul style="padding-left: 106px;">
-                                                <li th:each="d : *{contract.deals}">
-                                                    <span th:text="${d.name}"></span>
+                                                <li th:each="p : *{contract.packages}">
+                                                    <span th:text="${p.name}"></span>
                                                 </li>
                                             </ul>
-
                                         </li>
                                     </ul>
                                 </div>
@@ -127,7 +126,7 @@
                         <div class="col-xs-5">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h6>Contract Copy</h6>
+                                    <h6 class="row-title before-pink"><strong>Contract Copy</strong></h6>
                                 </div>
                                 <div class="panel-body">
 
@@ -153,27 +152,27 @@
                         </div>
                     </div>
                     <hr class="wide"/>
-                    <div class="row">
-
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th><h5 class="no-margin-bottom">Mag Amount</h5></th>
-                                <th><h5 class="no-margin-bottom">Valid From</h5></th>
-                                <th><h5 class="no-margin-bottom text-center">valid to</h5></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="m : *{contract.mags}">
-                                <td th:text="${m.amount}"></td>
-                                <td th:text="${m.validFrom}"></td>
-                                <td th:text="${m.validTo}"></td>
-                            </tr>
-
-                            </tbody>
-                        </table>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h6 class="row-title before-gold"><strong>MAG Details</strong></h6>
+                        </div>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th><h5 class="no-margin-bottom">Mag Amount</h5></th>
+                                    <th><h5 class="no-margin-bottom">Valid From</h5></th>
+                                    <th><h5 class="no-margin-bottom">valid To</h5></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="m : *{contract.mags}">
+                                    <td th:text="${m.amount}"></td>
+                                    <td th:text="${m.validFrom}"></td>
+                                    <td th:text="${m.validTo}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                     </div>
-
 
                     <hr class="wide"/>
                     <div class="row" th:if="${currentUser.roles[0].role == 'ADMIN' && contract.status=='PENDING'}">

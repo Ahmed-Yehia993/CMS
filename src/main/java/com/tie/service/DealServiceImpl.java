@@ -4,7 +4,9 @@
 package com.tie.service;
 
 import java.util.List;
+import java.util.Set;
 
+import com.tie.model.Package;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +38,5 @@ public class DealServiceImpl implements DealService {
 	public Deal findOneByName(String name) {
 		return dealRepository.findByName(name);
 	}
+
 }

@@ -1,5 +1,27 @@
 package com.tie.controller;
 
+import com.tie.consume.ws.BRMCaller;
+import com.tie.model.*;
+import com.tie.model.Package;
+import com.tie.service.ContractService;
+import com.tie.service.DealService;
+import com.tie.service.PackageService;
+import com.tie.service.UserService;
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,26 +36,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tie.model.*;
-import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.tie.service.ContractService;
-import com.tie.service.DealService;
-import com.tie.service.UserService;
-
 @Controller
 public class ContractController {
 
@@ -41,6 +43,9 @@ public class ContractController {
     private ContractService contractService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PackageService packageService;
+
     @Autowired
     private DealService dealService;
     //Save the uploaded file to this folder
@@ -61,7 +66,7 @@ public class ContractController {
         modelAndView.addObject("currentUser", getCurrentUser());
         Contract contract = contractService.findOne(contractId);
         Hibernate.initialize(contract.getContact());
-        Hibernate.initialize(contract.getDeals());
+        Hibernate.initialize(contract.getPackages());
         Hibernate.initialize(contract.getMags());
         System.out.println(contract.getContact());
         modelAndView.addObject("contract", contract);
@@ -116,11 +121,10 @@ public class ContractController {
         Contract contract = new Contract();
         Set<Contact> contacts = new HashSet<>();
         Contact contact = new Contact();
-        Set<Deal> contractDeals = new HashSet<>();
-        Deal deal;
+        Set<Package> contractPackages = new HashSet<>();
+        Package aPackage;
         Set<Mag> contractMags = new HashSet<>();
         Mag mag;
-
         contact.setAddress(address);
         contact.setCity(city);
         contact.setCountry(country);
@@ -152,11 +156,11 @@ public class ContractController {
         contract.setMags(contractMags);
 
         for (int i = 0; i < deals.length; i++) {
-            deal = new Deal();
-            deal = dealService.findOneByName(deals[i]);
-            contractDeals.add(deal);
+            aPackage = new Package();
+            aPackage = packageService.findByName(deals[i]);
+            contractPackages.add(aPackage);
         }
-        contract.setDeals(contractDeals);
+        contract.setPackages(contractPackages);
 
         contract.setAccountNo(contractNumber);
         contract.setArea(Integer.parseInt(shopArea));
@@ -170,7 +174,6 @@ public class ContractController {
 
         contract.setStatus(String.valueOf(ContractStatus.PENDING));
         contract.setType(contractType);
-
         System.out.println(contract);
 
         if (!file.isEmpty()) {
@@ -201,13 +204,27 @@ public class ContractController {
         return modelAndView;
     }
 
+
     @RequestMapping(value = "/contract/{contractId}/approve", method = RequestMethod.GET)
     public String approve(@PathVariable("contractId") String contractId) {
 
+
         Contract contract = contractService.findOne(contractId);
         contract.setStatus(String.valueOf(ContractStatus.ACTIVE));
-        contractService.update(contract);
+        Hibernate.initialize(contract.getContact());
+        Hibernate.initialize(contract.getPackages());
+        Hibernate.initialize(contract.getMags());
 
+        // ConsumeCustomerService consumeCustomerService = new ConsumeCustomerService();
+        // consumeCustomerService.createCustomerService(contract);
+
+        BRMCaller brmCaller = new BRMCaller();
+        try {
+            brmCaller.createBrmAccount(contract);
+            contractService.update(contract);
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
         return "redirect:/contract";
     }
 
@@ -220,22 +237,25 @@ public class ContractController {
 
         return "redirect:/contract";
     }
-    @RequestMapping(value="/contract/file/download", method=RequestMethod.GET)
+
+    @RequestMapping(value = "/contract/file/download", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<InputStreamResource> downloadFile(@Param(value="id") String id) throws FileNotFoundException {
+    public ResponseEntity<InputStreamResource> downloadFile(@Param(value = "id") String id) throws FileNotFoundException {
         Contract product = contractService.findOne(id);
 
-            File file = new File(UPLOADED_FOLDER +product.getHardCopyPath() );
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        File file = new File(UPLOADED_FOLDER + product.getHardCopyPath());
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment;filename=" + file.getName()).contentLength(file.length())
-                    .body(resource);
-        }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment;filename=" + file.getName()).contentLength(file.length())
+                .body(resource);
+    }
+
     public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         return user;
     }
+
 }

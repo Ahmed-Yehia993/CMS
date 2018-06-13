@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.tie.model.Deal;
 
+import java.util.Set;
+
 /**
  * @author Ahmed El-Deeb
  *
