@@ -114,11 +114,10 @@
                                         <li>Shop area <span th:text="${contract.area}"></span></li>
                                         <li>Contract Services:
                                             <ul style="padding-left: 106px;">
-                                                <li th:each="d : *{contract.deals}">
-                                                    <span th:text="${d.name}"></span>
+                                                <li th:each="p : *{contract.packages}">
+                                                    <span th:text="${p.name}"></span>
                                                 </li>
                                             </ul>
-
                                         </li>
                                     </ul>
                                 </div>

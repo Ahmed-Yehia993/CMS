@@ -1,5 +1,6 @@
 package com.tie.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,7 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.tie.consume.ws.BRMCaller;
+import com.tie.consume.ws.ConsumeCustomerService;
 import com.tie.model.*;
+import com.tie.model.Package;
+import com.tie.service.PackageService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,6 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tie.service.ContractService;
 import com.tie.service.DealService;
 import com.tie.service.UserService;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 @Controller
 public class ContractController {
@@ -31,7 +39,7 @@ public class ContractController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private DealService dealService;
+	private PackageService packageService;
 
 	@RequestMapping(value = "/contract/new", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -47,8 +55,9 @@ public class ContractController {
 		modelAndView.addObject("currentUser", getCurrentUser());
 		Contract contract = contractService.findOne(contractId);
 		Hibernate.initialize(contract.getContact());
-		Hibernate.initialize(contract.getDeals());
+		Hibernate.initialize(contract.getPackages());
 		Hibernate.initialize(contract.getMags());
+
 		System.out.println(contract.getContact());
 		modelAndView.addObject("contract", contract);
 		modelAndView.setViewName("contract_view");
@@ -77,26 +86,11 @@ public class ContractController {
 	// @RequestParam("fileUpload") String fileUpload
 	) {
 
-		System.out.println(contractNumber);
-		System.out.println(contractType);
-		System.out.println(contractStart);
-		System.out.println(duration);
-		System.out.println(firstName);
-		System.out.println(lastName);
-		System.out.println(emailAddress);
-		System.out.println(zip);
-		System.out.println(address);
-		System.out.println(city);
-		System.out.println(country);
-		System.out.println(shopArea);
-//		System.out.println(deals[1]);
-//		System.out.println(mags[1]);
-
 		Contract contract = new Contract();
 		Set<Contact> contacts = new HashSet<>();
 		Contact contact = new Contact();
-		Set<Deal> contractDeals = new HashSet<>();
-		Deal deal;
+		Set<Package> contractPackages = new HashSet<>();
+		Package aPackage;
 		Set<Mag> contractMags = new HashSet<>();
 		Mag mag;
 
@@ -131,11 +125,11 @@ public class ContractController {
 		contract.setMags(contractMags);
 
 		for (int i = 0; i < deals.length; i++) {
-			deal = new Deal();
-			deal = dealService.findOneByName(deals[i]);
-			contractDeals.add(deal);
+			aPackage = new Package();
+			aPackage = packageService.findByName(deals[i]);
+			contractPackages.add(aPackage);
 		}
-		contract.setDeals(contractDeals);
+		contract.setPackages(contractPackages);
 
 		contract.setAccountNo(contractNumber);
 		contract.setArea(Integer.parseInt(shopArea));
@@ -170,11 +164,24 @@ public class ContractController {
 	@RequestMapping(value = "/contract/{contractId}/approve", method = RequestMethod.GET)
 	public String approve(@PathVariable("contractId") String contractId) {
 
+
 		Contract contract = contractService.findOne(contractId);
 		contract.setStatus(String.valueOf(ContractStatus.ACTIVE));
-		contractService.update(contract);
+		Hibernate.initialize(contract.getContact());
+		Hibernate.initialize(contract.getPackages());
+		Hibernate.initialize(contract.getMags());
 
-		return "redirect:/contract";
+        // ConsumeCustomerService consumeCustomerService = new ConsumeCustomerService();
+        // consumeCustomerService.createCustomerService(contract);
+
+        BRMCaller brmCaller = new BRMCaller();
+        try {
+            brmCaller.createBrmAccount(contract);
+            contractService.update(contract);
+        } catch (IOException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/contract";
 	}
 	@RequestMapping(value = "/contract/{contractId}/reject", method = RequestMethod.GET)
 	public String reject(@PathVariable("contractId") String contractId) {
