@@ -49,14 +49,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.antMatchers("/user/**").hasAuthority("USER")
-				.antMatchers("/contract/**").authenticated().and().formLogin()
+				.antMatchers("/contract/**").authenticated()
+				.antMatchers("/index").authenticated().and().formLogin()
 				.loginPage("/login").loginProcessingUrl("/login").failureUrl("/login?error=true")
 				.defaultSuccessUrl("/home")
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/").and().exceptionHandling()
+				.logoutSuccessUrl("/index").and().exceptionHandling()
 				.accessDeniedPage("/access-denied").and().csrf();
 	}
 
