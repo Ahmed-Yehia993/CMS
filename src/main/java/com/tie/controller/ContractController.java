@@ -49,7 +49,9 @@ public class ContractController {
     @Autowired
     private DealService dealService;
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "C://WORK//CMS//src//main//resources//static//assets//uploadedFiles//";
+//    private static String UPLOADED_FOLDER = "C://WORK//CMS//src//main//resources//static//assets//uploadedFiles//";
+
+    private static String UPLOADED_FOLDER = "D://Workspace//idea//CMS//src//main//resources//static//assets//uploadedFiles//";
 
 
     @RequestMapping(value = "/contract/new", method = RequestMethod.GET)

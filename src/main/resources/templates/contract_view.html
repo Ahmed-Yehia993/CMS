@@ -123,33 +123,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-5">
+
+                        <div class="col-xs-7">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h6 class="row-title before-pink"><strong>Contract Copy</strong></h6>
                                 </div>
                                 <div class="panel-body">
-
                                     <div class="mail-attachments">
                                         <ul>
                                             <li>
-                                                <a th:href="@{|/contract/file/download?id=${contract.id}|}"
-                                                   class="thumb">
+                                                <a th:href="@{|/contract/file/download?id=${contract.id}|}" class="thumb">
                                                     <img src="/assets/img/downloadFile.png" style="height: 100px;">
                                                 </a>
+                                                <div>
+                                                    <br>
+                                                </div>
                                                 <div class="links">
-                                                    <!--<a th:href="@{'/assets/uploadedFiles/' + ${contract.hardCopyPath}}" target="_blank">View</a> - -->
-                                                    <a th:href="@{|/contract/file/download?id=${contract.id}|}">Download</a>
+                                                    <a class="btn btn-follow" th:href="@{'/assets/uploadedFiles/' + ${contract.hardCopyPath}}" target="_blank">View</a>
+                                                    <a class="btn btn-follow" th:href="@{|/contract/file/download?id=${contract.id}|}">Download</a>
                                                 </div>
                                             </li>
-
                                         </ul>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
+
                     </div>
                     <hr class="wide"/>
                     <div class="panel panel-default">
@@ -184,7 +184,6 @@
                                     class="fa fa-check right"></i></a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
