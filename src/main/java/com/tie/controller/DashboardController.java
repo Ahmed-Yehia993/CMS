@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class UserController {
-
-
+public class DashboardController {
     @Autowired
     private UserService userService;
 
-
-    @RequestMapping(value="/user/home", method = RequestMethod.GET)
-    public ModelAndView home(){
+    @RequestMapping(value={"/", "/index"}, method = RequestMethod.GET)
+    public ModelAndView dashboard(){
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("currentUser", getCurrentUser());
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
+
+    public User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName",  user.getName());
-
-        modelAndView.setViewName("user/home");
-        return modelAndView;
+        return user;
     }
 }
