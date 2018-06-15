@@ -74,7 +74,7 @@ public class ConsumeCustomerService {
 				+ "						</INHERITED_INFO>\r\n"
 				+ "					</PAYINFO>\r\n";
 
-
+		        int utilServiceCount = 0;
 		        for (int i=0; i< contractPackages.size();i++){
                     Hibernate.initialize(contractPackages.get(i).getDeals());
                     Set<Deal> packageDeals  = contractPackages.get(i).getDeals();
@@ -109,7 +109,7 @@ public class ConsumeCustomerService {
                                 + "							<CREDIT_LIMIT>NULL</CREDIT_LIMIT>\r\n"
                                 + "						</LIMIT>\r\n"
                                 + "					</BAL_INFO>\r\n"
-                                + "					<SERVICES elem=\"0\">\r\n"
+                                + "					<SERVICES elem=\""+ i +"\">\r\n"
                                 + "						<SERVICE_OBJ>0.0.0.1 /service/bac/retail -1 0</SERVICE_OBJ>\r\n"
                                 + "						<BAL_INFO elem=\""+ i +"\"></BAL_INFO>\r\n"
                                 + "						<LOGIN>LAGARDERE_" + contractPackages.get(i).getName().replace(" " , "_")+ "_" + contract.getAccountNo() +"</LOGIN>\r\n";
@@ -144,7 +144,7 @@ public class ConsumeCustomerService {
                                 + "						<BILLINFO elem=\""+ i +"\"></BILLINFO>\r\n"
                                 + "						<NAME>"+ contractPackages.get(i).getName() +"</NAME>\r\n"
                                 + "					</BAL_INFO>\r\n"
-                                + "					<SERVICES elem=\"0\">\r\n"
+                                + "					<SERVICES elem=\""+i+"\">\r\n"
                                 + "						<SERVICE_OBJ>0.0.0.1 /service/bac/rental -1 0</SERVICE_OBJ>\r\n"
                                 + "						<BAL_INFO elem=\""+ i +"\"></BAL_INFO>\r\n"
                                 + "						<LOGIN>LAGARDERE_" + contractPackages.get(i).getName().replace(" " , "_")+ "_" + contract.getAccountNo() +"</LOGIN>\r\n";
@@ -181,7 +181,7 @@ public class ConsumeCustomerService {
                                 + "						<BILLINFO elem=\""+ i +"\"></BILLINFO>\r\n"
                                 + "						<NAME>"+ contractPackages.get(i).getName() +"</NAME>\r\n"
                                 + "					</BAL_INFO>\r\n"
-                                + "					<SERVICES elem=\"0\">\r\n"
+                                + "					<SERVICES elem=\""+ i +"\">\r\n"
                                 + "						<SERVICE_OBJ>0.0.0.1 /service/bac/iptv -1 0</SERVICE_OBJ>\r\n"
                                 + "						<BAL_INFO elem=\""+ i +"\"></BAL_INFO>\r\n"
                                 + "						<LOGIN>LAGARDERE_" + contractPackages.get(i).getName().replace(" " , "_")+ "_" + contract.getAccountNo() +"</LOGIN>\r\n";
@@ -198,41 +198,41 @@ public class ConsumeCustomerService {
                                 + "					</SERVICES>\r\n";
                     }
 
-                    else if ((contractPackages.get(i).getName().equals("Power") || contractPackages.get(i).getName().equals("Water")) && !xmlRequest.contains("- Utilities")){
-                        xmlRequest = xmlRequest
-                                + "					<BILLINFO elem=\""+ i +"\">\r\n"
-                                + "						<POID>0.0.0.1 /billinfo -1 0</POID>\r\n"
-                                + "						<BILLINFO_ID>"+ (i+1) + " - Utilities</BILLINFO_ID>\r\n"
-                                + "						<PAYINFO elem=\"0\"></PAYINFO>\r\n"
-                                + "						<BAL_INFO elem=\""+ i +"\"></BAL_INFO>\r\n"
-                                + "						<PAY_TYPE>10001</PAY_TYPE>\r\n"
-                                + "						<BILLING_SEGMENT>0</BILLING_SEGMENT>\r\n"
-                                + "						<PARENT_FLAGS>0</PARENT_FLAGS>\r\n"
-                                + "						<BILL_WHEN>1</BILL_WHEN>\r\n"
-                                + "						<ACTG_TYPE>2</ACTG_TYPE>\r\n"
-                                + "						<CURRENCY>48</CURRENCY>\r\n"
-                                + "					</BILLINFO>\r\n"
-                                + "					<BAL_INFO elem=\""+ i +"\">\r\n"
-                                + "						<POID>0.0.0.1 /balance_group -1 0</POID>\r\n"
-                                + "						<BILLINFO elem=\""+ i + "\"></BILLINFO>\r\n"
-                                + "						<NAME>Utilities</NAME>\r\n"
-                                + "						<LIMIT elem=\"1001010\">\r\n"
-                                + "							<CREDIT_FLOOR>NULL</CREDIT_FLOOR>\r\n"
-                                + "							<CREDIT_LIMIT>NULL</CREDIT_LIMIT>\r\n"
-                                + "						</LIMIT>\r\n"
-                                + "						<LIMIT elem=\"1001011\">\r\n"
-                                + "							<CREDIT_FLOOR>NULL</CREDIT_FLOOR>\r\n"
-                                + "							<CREDIT_LIMIT>NULL</CREDIT_LIMIT>\r\n"
-                                + "						</LIMIT>\r\n"
-                                + "					</BAL_INFO>\r\n";
-
-
-                                int serviceCount = i;
+                    else if ((contractPackages.get(i).getName().equals("Power") || contractPackages.get(i).getName().equals("Water"))){
+                        if (!xmlRequest.contains("- Utilities")) {
+                            utilServiceCount = i;
+                            xmlRequest = xmlRequest
+                                    + "					<BILLINFO elem=\"" + i + "\">\r\n"
+                                    + "						<POID>0.0.0.1 /billinfo -1 0</POID>\r\n"
+                                    + "						<BILLINFO_ID>" + (i + 1) + " - Utilities</BILLINFO_ID>\r\n"
+                                    + "						<PAYINFO elem=\"0\"></PAYINFO>\r\n"
+                                    + "						<BAL_INFO elem=\"" + i + "\"></BAL_INFO>\r\n"
+                                    + "						<PAY_TYPE>10001</PAY_TYPE>\r\n"
+                                    + "						<BILLING_SEGMENT>0</BILLING_SEGMENT>\r\n"
+                                    + "						<PARENT_FLAGS>0</PARENT_FLAGS>\r\n"
+                                    + "						<BILL_WHEN>1</BILL_WHEN>\r\n"
+                                    + "						<ACTG_TYPE>2</ACTG_TYPE>\r\n"
+                                    + "						<CURRENCY>48</CURRENCY>\r\n"
+                                    + "					</BILLINFO>\r\n"
+                                    + "					<BAL_INFO elem=\"" + i + "\">\r\n"
+                                    + "						<POID>0.0.0.1 /balance_group -1 0</POID>\r\n"
+                                    + "						<BILLINFO elem=\"" + i + "\"></BILLINFO>\r\n"
+                                    + "						<NAME>Utilities</NAME>\r\n"
+                                    + "						<LIMIT elem=\"1001010\">\r\n"
+                                    + "							<CREDIT_FLOOR>NULL</CREDIT_FLOOR>\r\n"
+                                    + "							<CREDIT_LIMIT>NULL</CREDIT_LIMIT>\r\n"
+                                    + "						</LIMIT>\r\n"
+                                    + "						<LIMIT elem=\"1001011\">\r\n"
+                                    + "							<CREDIT_FLOOR>NULL</CREDIT_FLOOR>\r\n"
+                                    + "							<CREDIT_LIMIT>NULL</CREDIT_LIMIT>\r\n"
+                                    + "						</LIMIT>\r\n"
+                                    + "					</BAL_INFO>\r\n";
+                        }
                                 if (contractPackages.get(i).getName().equals("Power")) {
                                     xmlRequest = xmlRequest
-                                            + "					<SERVICES elem=\""+ serviceCount +"\">\r\n"
+                                            + "					<SERVICES elem=\""+ i +"\">\r\n"
                                             + "						<SERVICE_OBJ>0.0.0.1 /service/bac/util/power -1 0</SERVICE_OBJ>\r\n"
-                                            + "						<BAL_INFO elem=\""+ i +"\"></BAL_INFO>\r\n"
+                                            + "						<BAL_INFO elem=\""+ utilServiceCount +"\"></BAL_INFO>\r\n"
                                             + "						<LOGIN>LAGARDERE_" + contractPackages.get(i).getName().replace(" " , "_") + "_" + contract.getAccountNo() +"</LOGIN>\r\n"
                                             + "						<DEALS elem=\"0\">\r\n"
                                             + "							<DEAL_OBJ>0.0.0.1 /deal 4461432 0</DEAL_OBJ>\r\n"
@@ -247,14 +247,14 @@ public class ConsumeCustomerService {
                                     }
                                     xmlRequest = xmlRequest
                                             + "					</SERVICES>\r\n";
-                                    serviceCount++;
+
                                 }
                                 if (contractPackages.get(i).getName().equals("Water")) {
                                     xmlRequest = xmlRequest
 
-                                            + "					<SERVICES elem=\""+serviceCount+"\">\r\n"
+                                            + "					<SERVICES elem=\""+ i +"\">\r\n"
                                             + "						<SERVICE_OBJ>0.0.0.1 /service/bac/util/water -1 0</SERVICE_OBJ>\r\n"
-                                            + "						<BAL_INFO elem=\""+ i +"\"></BAL_INFO>\r\n"
+                                            + "						<BAL_INFO elem=\""+ utilServiceCount +"\"></BAL_INFO>\r\n"
                                             + "						<LOGIN>LAGARDERE_" + contractPackages.get(i).getName().replace(" " , "_") + "_" + contract.getAccountNo() +"</LOGIN>\r\n";
                                     int dealCount = 0;
                                     for (Deal deal : packageDeals) {
@@ -273,7 +273,7 @@ public class ConsumeCustomerService {
                 + "				</PCM_OP_CUST_CREATE_CUSTOMER_inputFlist>";
 		try {
             System.out.println("createCustomerService" + xmlRequest);
-			xmlResponse = serviceLocator.getBRMCustServices().pcmOpCustCreateCustomer(0, xmlRequest);
+            xmlResponse = serviceLocator.getBRMCustServices().pcmOpCustCreateCustomer(0, xmlRequest);
             System.out.println("createCustomerService" + xmlResponse);
 		} catch (RemoteException | ServiceException e) {
 			e.printStackTrace();
