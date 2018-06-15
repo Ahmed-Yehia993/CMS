@@ -29,8 +29,8 @@ public class ConsumeCustomerService {
 		List<Package> contractPackages = new ArrayList<>(contract.getPackages());
 		String xmlRequest = "	<PCM_OP_CUST_CREATE_CUSTOMER_inputFlist>\r\n"
 				+ "					<POID>0.0.0.1 /account 1 1</POID>\r\n"
-				+ "					<END_T>1514761200</END_T>\r\n"
-				+ "					<NAMEINFO elem=\"0\">\r\n"
+                + "					<END_T>"+contract.getStartDate().getTime()/1000+"</END_T>\r\n"
+                + "					<NAMEINFO elem=\"0\">\r\n"
 				+ "						<FIRST_NAME>"+ contract.getCompanyName() +"</FIRST_NAME>\r\n"
 				+ "						<ZIP>" + contractContacts.get(0).getZipCode() +"</ZIP>\r\n"
 				+ "						<COUNTRY>" + contractContacts.get(0).getCountry() +"</COUNTRY>\r\n"
@@ -78,6 +78,7 @@ public class ConsumeCustomerService {
 		        for (int i=0; i< contractPackages.size();i++){
                     Hibernate.initialize(contractPackages.get(i).getDeals());
                     Set<Deal> packageDeals  = contractPackages.get(i).getDeals();
+                    System.out.println(contractPackages.get(i) + "  AHMED");
                     if (contractPackages.get(i).getName().equals("Retail Revenue Sharing") && contract.getType().equals("Revenue Sharing")){
                         xmlRequest = xmlRequest
                                 + "					<BILLINFO elem=\""+ i +"\">\r\n"
