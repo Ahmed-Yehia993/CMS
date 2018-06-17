@@ -2,8 +2,8 @@
 
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- Head -->
 <head th:replace="fragments/style :: head"></head>
@@ -15,23 +15,119 @@
 <!--Header Buttons End-->
 <!-- Page Content -->
 <div class="page-content">
-	<!-- Page Breadcrumb -->
-	<div class="page-breadcrumbs">
-		<ul class="breadcrumb">
-			<li class="active">
-				<i class="fa fa-home"></i>
-				<a href="#">Home</a>
-			</li>
-		</ul>
-	</div>
-	<div class="page-body">
-		<div class="row">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-home"></i>
+                <a href="#">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div class="page-body">
+        <div class="row">
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                <a href="/contract">
+                    <div class="databox databox-xlg radius-bordered databox-shadowed databox-graded">
+                        <div class="databox-left bg-pink">
+                            <div class="databox-piechart">
+                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff"
+                                     data-linecap="butt"
+                                     th:attr="data-percent=${stat.dataPercent}, data-size=${stat.sum * 10}"
+                                     data-animate="1000" data-linewidth="7"
+                                     data-trackcolor="#f89cbd">
+                                    <span class="white font-150"><i class="glyphicon glyphicon-folder-open"></i> Contract</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="databox-right bordered-thick bordered-warning">
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum">
+                                <span class="databox-text darkgray padding-10">Approved Contracts</span>
+                                <div class="databox-stat bg-green radius-bordered">
+                                    <div class="stat-text" th:text="${stat.approvedContract}"></div>
 
-		</div>
-	</div>
+                                </div>
+                            </div>
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum">
+                                <span class="databox-text darkgray padding-10">Rejected Contracts</span>
+                                <div class="databox-stat bg-red radius-bordered">
+                                    <div class="stat-text" th:text="${stat.rejectedContract}"></div>
+
+                                </div>
+                            </div>
+                            <div class="databox-row row-3">
+                                <span class="databox-text darkgray padding-10">Pending Contracts</span>
+                                <div class="databox-stat bg-yellow radius-bordered">
+                                    <div class="stat-text" th:text="${stat.pendingContract}"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                <a href="/contract">
+                    <div class="databox databox-xlg radius-bordered databox-shadowed databox-graded">
+                        <div class="databox-left bg-ivory">
+                            <div class="databox-piechart">
+                                <div>
+                                    <span class="sky  font-150"><i class="fa fa-gear"></i> Services</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="databox-right bordered-thick bordered-warning">
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum" style="height: 18%;">
+                                <span class="databox-text darkgray">Rental</span>
+                                <div class="databox-stat bg-green radius-bordered">
+                                    <div class="stat-text" th:text="${serviceStat.rentalCount}"></div>
+
+                                </div>
+                            </div>
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum" style="height: 18%;">
+                                <span class="databox-text darkgray ">Retail Revenue Sharing</span>
+                                <div class="databox-stat bg-red radius-bordered">
+                                    <div class="stat-text" th:text="${serviceStat.retailRevenueSharingCount}"></div>
+
+                                </div>
+                            </div>
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum" style="height: 18%;">
+                                <span class="databox-text darkgray ">IPTV</span>
+                                <div class="databox-stat bg-pink radius-bordered">
+                                    <div class="stat-text" th:text="${serviceStat.iPTVCount}"></div>
+
+                                </div>
+                            </div>
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum" style="height: 18%;">
+                                <span class="databox-text darkgray ">Power</span>
+                                <div class="databox-stat bg-sky radius-bordered">
+                                    <div class="stat-text" th:text="${serviceStat.powerCount}"></div>
+
+                                </div>
+                            </div>
+                            <div class="databox-row row-3">
+                                <span class="databox-text darkgray " style="height: 18%;">Water</span>
+                                <div class="databox-stat bg-yellow radius-bordered">
+                                    <div class="stat-text" th:text="${serviceStat.waterCount}"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments/scripts :: script"></div>
+<script src="assets/js/charts/easypiechart/jquery.easypiechart.js"></script>
+<script src="assets/js/charts/easypiechart/easypiechart-init.js"></script>
 
+<script>
+
+    InitiateEasyPieChart.init();
+
+</script>
 
 </body>
 <!--  /Body -->

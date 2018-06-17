@@ -21,7 +21,9 @@
     <!-- Page Breadcrumb -->
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
-            <li><i class="fa fa-home"></i> <a href="#">Home</a></li>
+            <li><i class="fa fa-home"></i>
+                <a href="/index">Home</a>
+            </li>
             <li><a href="/contract/">Contracts</a></li>
             <li class="active">new</li>
         </ul>
@@ -41,11 +43,12 @@
                                     class="step">1</span>Basic Info.<span class="chevron"></span></li>
                             <li data-target="#tabbedwizardstep2"><span class="step">2</span>Contact
                                 Info.<span class="chevron"></span></li>
-                            <li data-target="#tabbedwizardstep3"><span class="step">3</span>Profile/Services<span
+                            <li data-target="#tabbedwizardstep3" id="serviceLabel"><span class="step">3</span>Profile/Services<span
                                     class="chevron"></span></li>
-                            <li data-target="#tabbedwizardstep4" class="magWizerd"><span
+                            <li data-target="#tabbedwizardstep4" id="magLabel" class="magWizerd"><span
                                     class="step">4</span>MAG<span class="chevron"></span></li>
-                            <li data-target="#tabbedwizardstep5"><span class="step">5</span>Contract
+
+                            <li id="Contractlabel"data-target="#tabbedwizardstep5"><span class="step">5</span>Contract
                                 Copy<span class="chevron"></span></li>
                         </ul>
                     </div>
@@ -70,14 +73,15 @@
                                 <div class="row">
 
                                     <div class="form-group col-md-6">
-                                        <label for="contractType">Contract Type</label> <select
-                                            name="contractType" class="form-control input-sm">
-                                        <option value="Revenue Sharing">Revenue Sharing</option>
-                                        <option value="Fixed Rental">Fixed Rental</option>
-                                        <option value="Incremental Rental">Incremental
-                                            Rental
-                                        </option>
-                                    </select>
+                                        <label for="contractType">Contract Type</label>
+                                        <select
+                                                name="contractType" id="contractType" class="form-control input-sm">
+                                            <option value="Revenue Sharing">Revenue Sharing</option>
+                                            <option value="Fixed Rental">Fixed Rental</option>
+                                            <option value="Incremental Rental">Incremental
+                                                Rental
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -342,6 +346,20 @@ document.head.appendChild(script); //or something of the likes
 			  return opts;
 			}
 */		
+
+$("#contractType").change(function () {
+        var val = this.value;
+        if(val !== "Revenue Sharing"){
+            $("#magLabel").remove();
+            $("#tabbedwizardstep4").remove();
+            $("#Contractlabel span").text("4")
+
+        }else{
+            $("#serviceLabel").after("<li data-target='#tabbedwizardstep4' id='magLabel' class='magWizerd'><span class='step'>4</span>MAG<span class='chevron'></span></li>");
+            $( "#tabbedwizardstep3" ).after("<div class='step-pane magWizerd' id='tabbedwizardstep4'><div class='row form-group col-md-6'><button class='add_field_button btn btn-palegreen btn-sm'>Add One MAG</button></div><div class='row'><div class='input_fields_wrap col-md-12 form-group'><div><input type='hidden' class='form-control input-sm' placeholder='eg. 1234890' name='mag[]'></div></div></div></div>");
+            $("#Contractlabel span").text("5")
+        }
+    });
 
 </script>
 

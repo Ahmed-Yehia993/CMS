@@ -3,8 +3,14 @@
  */
 package com.tie.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.tie.dto.ContractStatDto;
+import com.tie.dto.ServicesStatDto;
+import com.tie.model.ContractStatus;
+import com.tie.model.Package;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,41 +29,106 @@ import com.tie.repository.MagRepository;
 @Service("contractService")
 public class ContractServiceImpl implements ContractService {
 
-	@Autowired
-	private ContractRepository contractRepository;
-	@Autowired
-	private ContactRepository contactRepository;
-	@Autowired
-	private MagRepository magRepository;
+    @Autowired
+    private ContractRepository contractRepository;
+    @Autowired
+    private ContactRepository contactRepository;
+    @Autowired
+    private MagRepository magRepository;
 
-	@Override
-	public void saveContract(Contract contract) {
+    @Override
+    public void saveContract(Contract contract) {
 
-		for (Contact contact : contract.getContact()) {
-			contactRepository.save(contact);
-		}
-		for (Mag mag : contract.getMags()) {
-			magRepository.save(mag);
-		}
-		contractRepository.save(contract);
-	}
+        for (Contact contact : contract.getContact()) {
+            contactRepository.save(contact);
+        }
+        for (Mag mag : contract.getMags()) {
+            magRepository.save(mag);
+        }
+        contractRepository.save(contract);
+    }
 
-	@Override
-	public List<Contract> findAll() {
-		return contractRepository.findAll(sortByIdDESC());
-	}
+    @Override
+    public List<Contract> findAll() {
+        return contractRepository.findAll(sortByIdDESC());
+    }
 
-	@Override
-	public Contract findOne(String contractId) {
-		return contractRepository.findOne(Integer.parseInt(contractId));
-	}
+    @Override
+    public Contract findOne(String contractId) {
+        return contractRepository.findOne(Integer.parseInt(contractId));
+    }
 
-	@Override
-	public void update(Contract contract) {
-		contractRepository.save(contract);
-	}
+    @Override
+    public void update(Contract contract) {
+        contractRepository.save(contract);
+    }
 
-	private Sort sortByIdDESC() {
-		return new Sort(Sort.Direction.DESC, "created");
-	}
+    @Override
+    public ContractStatDto getContractStat(List<Contract> contracts) {
+        ContractStatDto contractStatDto = new ContractStatDto();
+        int pend = 0, active = 0, reject = 0;
+        for (Contract c : contracts) {
+            if (c.getStatus().equals(String.valueOf(ContractStatus.PENDING))) {
+                pend++;
+                contractStatDto.setPendingContract(pend);
+            }
+            if (c.getStatus().equals(String.valueOf(ContractStatus.ACTIVE))) {
+                active++;
+                contractStatDto.setApprovedContract(active);
+            }
+            if (c.getStatus().equals(String.valueOf(ContractStatus.REJECTED))) {
+                reject++;
+                contractStatDto.setRejectedContract(reject);
+            }
+            contractStatDto.setSum(pend + active + reject);
+            contractStatDto.setRejectedContract(reject);
+            contractStatDto.setApprovedContract(active);
+            contractStatDto.setPendingContract(pend);
+        }
+        contractStatDto.setDataPercent(((float) contractStatDto.getApprovedContract() / (float) contractStatDto.getSum()) * 100);
+
+
+        return contractStatDto;
+    }
+
+    @Override
+    public ServicesStatDto getServiceStat(List<Contract> contracts) {
+        ServicesStatDto servicesStatDto = new ServicesStatDto();
+        int rentalCount = 0,
+                retailRevenueSharingCount = 0,
+                iPTVCount = 0,
+                powerCount = 0,
+                waterCount = 0;
+        for (Contract c : contracts) {
+            Hibernate.initialize(c.getPackages());
+            for (Package p : c.getPackages()) {
+                if (p.getName().equals("Rental")) {
+                    rentalCount++;
+                }
+                if (p.getName().equals("Retail Revenue Sharing")) {
+                    retailRevenueSharingCount++;
+                }
+                if (p.getName().equals("IPTV")) {
+                    iPTVCount++;
+                }
+                if (p.getName().equals("Power")) {
+                    powerCount++;
+                }
+                if (p.getName().equals("Water")) {
+                    waterCount++;
+                }
+            }
+
+        }
+        servicesStatDto.setiPTVCount(iPTVCount);
+        servicesStatDto.setPowerCount(powerCount);
+        servicesStatDto.setRentalCount(rentalCount);
+        servicesStatDto.setRetailRevenueSharingCount(retailRevenueSharingCount);
+        servicesStatDto.setWaterCount(waterCount);
+        return servicesStatDto;
+    }
+
+    private Sort sortByIdDESC() {
+        return new Sort(Sort.Direction.DESC, "created");
+    }
 }

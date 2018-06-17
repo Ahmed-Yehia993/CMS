@@ -49,9 +49,9 @@ public class ContractController {
     @Autowired
     private DealService dealService;
     //Save the uploaded file to this folder
-//    private static String UPLOADED_FOLDER = "C://WORK//CMS//src//main//resources//static//assets//uploadedFiles//";
+    private static String UPLOADED_FOLDER = "C://WORK//CMS//src//main//resources//static//assets//uploadedFiles//";
 
-    private static String UPLOADED_FOLDER = "D://Workspace//idea//CMS//src//main//resources//static//assets//uploadedFiles//";
+    //private static String UPLOADED_FOLDER = "D://Workspace//idea//CMS//src//main//resources//static//assets//uploadedFiles//";
 
 
     @RequestMapping(value = "/contract/new", method = RequestMethod.GET)
@@ -102,7 +102,7 @@ public class ContractController {
                          @RequestParam("companyName") String companyName,
                          @RequestParam("phoneNumber") String phoneNumber,
                          @RequestParam(value = "deals", required = true) String[] deals,
-                         @RequestParam(value = "mag[]", required = true) String[] mags,
+                         @RequestParam(value = "mag[]", required = false) String[] mags,
                          @RequestParam("file") MultipartFile file
     ) {
         System.out.println(contractNumber);
@@ -138,25 +138,27 @@ public class ContractController {
         contacts.add(contact);
         contract.setContact(contacts);
 
-        for (int i = 1; i < mags.length; i++) {
-            mag = new Mag();
-            mag.setAmount(Integer.parseInt(mags[i]));
-            try {
-                Calendar calendarStart = Calendar.getInstance();
-                Calendar calendarEnd = Calendar.getInstance();
-                calendarStart.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
-                calendarStart.add(Calendar.YEAR, i - 1);
-                mag.setValidFrom(calendarStart.getTime());
-                calendarEnd.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
-                calendarEnd.add(Calendar.YEAR, i);
-                mag.setValidTo(calendarEnd.getTime());
-                contractMags.add(mag);
-            } catch (ParseException e) {
-                e.printStackTrace();
+        if(mags != null) {
+            for (int i = 1; i < mags.length; i++) {
+                mag = new Mag();
+                mag.setAmount(Integer.parseInt(mags[i]));
+                try {
+                    Calendar calendarStart = Calendar.getInstance();
+                    Calendar calendarEnd = Calendar.getInstance();
+                    calendarStart.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
+                    calendarStart.add(Calendar.YEAR, i - 1);
+                    mag.setValidFrom(calendarStart.getTime());
+                    calendarEnd.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
+                    calendarEnd.add(Calendar.YEAR, i);
+                    mag.setValidTo(calendarEnd.getTime());
+                    contractMags.add(mag);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
+
         }
         contract.setMags(contractMags);
-
         for (int i = 0; i < deals.length; i++) {
             aPackage = new Package();
             aPackage = packageService.findByName(deals[i]);
