@@ -19,6 +19,15 @@
         .databox .databox-stat {
                 top: 2px;
             }
+            .easyPieChart canvas {
+                width: 150px !important;
+                height: 150px !important;
+            }
+            .easyPieChart {
+                width: 150px !important;
+                height: 150px !important;
+                line-height: 150px !important;
+            }
     </style>
     <!-- Page Breadcrumb -->
     <div class="page-breadcrumbs">
@@ -40,7 +49,7 @@
                                      data-linecap="butt"
                                      th:attr="data-percent=${stat.dataPercent}, data-size=${stat.sum * 10}"
                                      data-animate="1000" data-linewidth="7"
-                                     data-trackcolor="#f89cbd">
+                                     data-trackcolor="#f89cbd" style="width: 150px !important;height: 150px !important;line-height: 150px !important;">
                                     <span class="white font-150"><i class="glyphicon glyphicon-folder-open"></i> Contract</span>
                                 </div>
                             </div>
