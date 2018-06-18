@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<!-- Head -->
+<head th:replace="fragments/style :: head"></head>
+
+<!-- /Head -->
+<!-- Body -->
+<body>
+<link rel="stylesheet" type="text/css" href="/assets/css/fileuploader/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/css/fileuploader/demo.css"/>
+<link rel="stylesheet" type="text/css" href="/assets/css/fileuploader/component.css"/>
+
+<!-- Head -->
+<div th:replace="fragments/sidemenu :: div"></div>
+<!--Header Buttons End-->
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li><i class="fa fa-home"></i>
+                <a href="/index">Home</a>
+            </li>
+            <li><a href="/contract/">Contracts</a></li>
+            <li class="active">edit</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <!-- Your Content Goes Here -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+
+                    <div id="tabbedwizard" class="wizard wizard-tabbed"
+                         data-target="#tabbedwizardsteps">
+                        <ul class="steps">
+                            <li data-target="#tabbedwizardstep1" class="active"><span
+                                    class="step">1</span>Basic Info.<span class="chevron"></span></li>
+                            <li data-target="#tabbedwizardstep2"><span class="step">2</span>Contact
+                                Info.<span class="chevron"></span></li>
+
+                        </ul>
+                    </div>
+                    <form th:action="@{'/contract/' +${contract.id} +'/edit'}" method="POST" id="wizeredForm" enctype="multipart/form-data">
+
+                        <div class="step-content" id="tabbedwizardsteps">
+                            <div class="step-pane active" id="tabbedwizardstep1">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="contractNumber">Contract Number</label> <input
+                                            type="text" class="form-control input-sm"
+                                            name="contractNumber" placeholder="eg. 10002352" th:value="${contract.accountNo}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="companyName">Company Name</label>
+                                        <input
+                                                type="text" class="form-control input-sm"
+                                                name="companyName" placeholder="eg. Orange" th:value="${contract.companyName}">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="contractType">Contract Type</label>
+                                        <select
+                                                name="contractType" id="contractType" class="form-control input-sm" >
+                                            <option value="Revenue Sharing" th:selected="${contract.type == 'Revenue Sharing'}">Revenue Sharing</option>
+                                            <option value="Fixed Rental" th:selected="${contract.type == 'Fixed Rental'}">Fixed Rental</option>
+                                            <option value="Incremental Rental" th:selected="${contract.type == 'Incremental Rental'}">Incremental
+                                                Rental
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="contractStart">Contract Start Date</label>
+                                        <div class="input-group">
+                                            <input class="form-control date-picker input-sm"
+                                                   name="contractStart" data-date-format="dd/mm/yyyy"
+                                                   placeholder="eg. 09-04-2018" th:value="${contract.startDate}"> <span
+                                                class="input-group-addon" > <i class="fa fa-calendar"></i>
+											</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="duration">Contract Duration (Years)</label> <input
+                                            type="number" class="form-control input-sm" name="duration"
+                                            placeholder="eg. 5" th:value="${contract.duration}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-pane" id="tabbedwizardstep2" th:each="c : *{contract.contact}">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="firstName">First Name</label> <input type="text"
+                                                                                         class="form-control input-sm"
+                                                                                         name="firstName"
+                                                                                         placeholder="eg. Jon" th:value="${c.firstName}">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="lastName">Last Name</label> <input type="text"
+                                                                                       class="form-control input-sm"
+                                                                                       name="lastName"
+                                                                                       placeholder="eg. Deo" th:value="${c.lastName}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="phoneNumber">Phone Number</label> <input
+                                            type="text" class="form-control input-sm"
+                                            name="phoneNumber" placeholder="eg. 01280901709" th:value="${c.phoneNumber}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="emailAddress">E-mail Address</label> <input
+                                            type="email" class="form-control input-sm"
+                                            name="emailAddress" placeholder="eg. example@bac.com" th:value="${c.emailAddress}">
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="zip">ZIP</label> <input type="text"
+                                                                            class="form-control input-sm" name="zip"
+                                                                            placeholder="eg. 12345" th:value="${c.zipCode}">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="address">Address</label> <input type="text"
+                                                                                    class="form-control input-sm"
+                                                                                    name="address"
+                                                                                    placeholder="eg. 445 Mount Eden Road, Auckland" th:value="${c.address}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="city">City</label> <input type="text"
+                                                                              class="form-control input-sm" name="city"
+                                                                              placeholder="eg. Auckland" th:value="${c.city}">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="country">Country</label> <input type="text"
+                                                                                    class="form-control input-sm"
+                                                                                    name="country"
+                                                                                    placeholder="eg. Newzeland" th:value="${c.country}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="actions actions-footer" id="tabbedwizard-actions">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm btn-prev">
+                                    <i class="fa fa-angle-left"></i>Prev
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm btn-next"
+                                        data-last="Finish">
+                                    Next<i class="fa fa-angle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+</div>
+<!-- /Page Container -->
+<!-- Main Container -->
+</div>
+<div th:replace="fragments/scripts :: script"></div>
+
+<!--Page Related Scripts-->
+<script src="/assets/js/fuelux/wizard/wizard-custom.js"></script>
+<script src="/assets/js/toastr/toastr.js"></script>
+<!--Bootstrap Date Picker-->
+<script src="/assets/js/datetime/bootstrap-datepicker.js"></script>
+<!--Fuelux Spinbox-->
+<script src="/assets/js/fuelux/spinbox/fuelux.spinbox.min.js"></script>
+<!--Dropzone-->
+<script src="/assets/js/dropzone/dropzone.min.js"></script>
+
+<script src="/assets/js/fileuploader/custom-file-input.js"></script>
+<script type="text/javascript">
+		jQuery(function($) {
+			$('#tabbedwizard')
+					.wizard()
+					.on(
+							'finished',
+							function(e) {
+								$("#wizeredForm").submit();
+								Notify(
+										'Thank You! All of your information saved successfully.',
+										'bottom-right', '5000', 'blue',
+										'fa-check', true);
+							});
+			$('#WiredWizard').wizard();
+		});
+
+		//--Bootstrap Date Picker--
+		$('.date-picker').datepicker();
+
+		$(document)
+				.ready(
+						function() {
+							var max_fields = 25; //maximum input boxes allowed
+							var wrapper = $(".input_fields_wrap"); //Fields wrapper
+							var add_button = $(".add_field_button"); //Add button ID
+
+							var x = 1; //initlal text box count
+							$(add_button)
+									.click(
+											function(e) { //on add input button click
+												e.preventDefault();
+												if (x < max_fields) { //max input box allowed
+													x++; //text box increment
+													$(wrapper)
+															.append(
+																	'<div class="row"><div class="input_fields_wrap col-md-3 form-group"><div><input type="text" class="form-control input-sm" placeholder="eg. 1234890" name="mag[]"></div></div><a href="#" class="remove_field btn btn-darkorange btn-sm">Remove</a></div>'); //add input box
+												}
+											});
+
+							$(wrapper).on("click", ".remove_field",
+									function(e) { //user click on remove text
+										e.preventDefault();
+										$(this).parent('div').remove();
+										x--;
+									})
+						});
+
+</script>
+
+</body>
+<!--  /Body -->
+</html>

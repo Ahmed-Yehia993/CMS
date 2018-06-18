@@ -79,7 +79,9 @@ public class ContractController {
     @RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.GET)
     public ModelAndView contractEdit(@PathVariable("contractId") String contractId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("contract", contractService.findOne(contractId));
+        Contract contract = contractService.findOne(contractId);
+        Hibernate.initialize(contract.getContact());
+        modelAndView.addObject("contract",contract );
         modelAndView.addObject("currentUser", getCurrentUser());
 
         modelAndView.setViewName("contract_edit");
@@ -267,6 +269,70 @@ public class ContractController {
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment;filename=" + file.getName()).contentLength(file.length())
                 .body(resource);
+    }
+    @RequestMapping(value = "/contract/{contractId}/edit", method = RequestMethod.POST)
+    public String edit(@PathVariable("contractId") String contractId,@RequestParam("contractNumber") String contractNumber,
+                         @RequestParam("contractType") String contractType,
+                         @RequestParam("contractStart") String contractStart,
+                         @RequestParam("duration") String duration,
+                         @RequestParam("firstName") String firstName,
+                         @RequestParam("lastName") String lastName,
+                         @RequestParam("emailAddress") String emailAddress,
+                         @RequestParam("zip") String zip,
+                         @RequestParam("address") String address,
+                         @RequestParam("city") String city,
+                         @RequestParam("country") String country,
+                         @RequestParam("companyName") String companyName,
+                         @RequestParam("phoneNumber") String phoneNumber
+    ) {
+        System.out.println(contractNumber);
+        System.out.println(contractType);
+        System.out.println(contractStart);
+        System.out.println(duration);
+        System.out.println(firstName);
+        System.out.println(lastName);
+        System.out.println(emailAddress);
+        System.out.println(zip);
+        System.out.println(address);
+        System.out.println(city);
+        System.out.println(country);
+
+        Contract contract = contractService.findOne(contractId);
+
+        Set<Contact> contacts = new HashSet<>();
+        Contact contact = new Contact();
+
+        contact.setAddress(address);
+        contact.setCity(city);
+        contact.setCountry(country);
+        contact.setEmailAddress(emailAddress);
+        contact.setFirstName(firstName);
+        contact.setLastName(lastName);
+        contact.setZipCode(zip);
+        contact.setPhoneNumber(phoneNumber);
+
+        contacts.add(contact);
+
+        contract.setContact(contacts);
+
+        contract.setAccountNo(contractNumber);
+
+        contract.setDuration(Integer.parseInt(duration));
+        contract.setCompanyName(companyName);
+        try {
+            contract.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse(contractStart));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        contract.setStatus(String.valueOf(ContractStatus.PENDING));
+        contract.setType(contractType);
+
+
+
+        contractService.saveContract(contract);
+
+        return "redirect:/contract";
     }
 
     public User getCurrentUser() {
