@@ -60,10 +60,17 @@
 
                                 </div>
                             </div>
-                            <div class="databox-row row-3">
+                            <div class="databox-row row-3 bordered-bottom bordered-platinum">
                                 <span class="databox-text darkgray padding-10">Pending Contracts</span>
                                 <div class="databox-stat bg-yellow radius-bordered">
                                     <div class="stat-text" th:text="${stat.pendingContract}"></div>
+
+                                </div>
+                            </div>
+                            <div class="databox-row row-3">
+                                <span class="databox-text darkgray padding-10">Closed Contracts</span>
+                                <div class="databox-stat bg-sky radius-bordered">
+                                    <div class="stat-text" th:text="${stat.closedContract}"></div>
 
                                 </div>
                             </div>

@@ -65,24 +65,25 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public ContractStatDto getContractStat(List<Contract> contracts) {
         ContractStatDto contractStatDto = new ContractStatDto();
-        int pend = 0, active = 0, reject = 0;
+        int pend = 0, active = 0, reject = 0,closed=0;
         for (Contract c : contracts) {
             if (c.getStatus().equals(String.valueOf(ContractStatus.PENDING))) {
                 pend++;
-                contractStatDto.setPendingContract(pend);
             }
             if (c.getStatus().equals(String.valueOf(ContractStatus.ACTIVE))) {
                 active++;
-                contractStatDto.setApprovedContract(active);
             }
             if (c.getStatus().equals(String.valueOf(ContractStatus.REJECTED))) {
                 reject++;
-                contractStatDto.setRejectedContract(reject);
             }
-            contractStatDto.setSum(pend + active + reject);
+            if (c.getStatus().equals(String.valueOf(ContractStatus.CLOSED))) {
+                closed++;
+            }
+            contractStatDto.setSum(pend + active + reject + closed);
             contractStatDto.setRejectedContract(reject);
             contractStatDto.setApprovedContract(active);
             contractStatDto.setPendingContract(pend);
+            contractStatDto.setClosedContract(closed);
         }
         contractStatDto.setDataPercent(((float) contractStatDto.getApprovedContract() / (float) contractStatDto.getSum()) * 100);
 

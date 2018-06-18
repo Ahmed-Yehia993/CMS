@@ -6,6 +6,7 @@ public class ContractStatDto {
     int approvedContract;
     int rejectedContract;
     int pendingContract;
+    int closedContract;
     int sum;
     float dataPercent;
 
@@ -47,5 +48,13 @@ public class ContractStatDto {
 
     public void setDataPercent(float dataPercent) {
         this.dataPercent = dataPercent;
+    }
+
+    public int getClosedContract() {
+        return closedContract;
+    }
+
+    public void setClosedContract(int closedContract) {
+        this.closedContract = closedContract;
     }
 }
