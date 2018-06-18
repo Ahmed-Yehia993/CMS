@@ -170,7 +170,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="deals">Contract Services</label> <select
-                                            class="deals" name="deals" id="deals" onchange="getSelectedOptions(this)"
+                                            class="deals" name="deals" id="deals"
                                             class="form-control input-sm" multiple size="6">
                                         <option value="Rental">Rental</option>
                                         <option value="Retail Revenue Sharing">Retail Revenue Sharing</option>
@@ -327,23 +327,6 @@ document.head.appendChild(script); //or something of the likes
 		    var value = selectObject.value;
 		    alert(value);
 		}
-	/*	
-		function getSelectedOptions(sel) {
-			  var opts = [],
-			    opt;
-			    alert(opts.value);
-			  var len = sel.options.length;
-			  for (var i = 0; i < len; i++) {
-			    opt = sel.options[i];
-			    if (opt.selected) {
-			      opts.push(opt);
-			      
-			    }
-			  }
-
-			  return opts;
-			}
-*/		
 
 $("#contractType").change(function () {
         var val = this.value;

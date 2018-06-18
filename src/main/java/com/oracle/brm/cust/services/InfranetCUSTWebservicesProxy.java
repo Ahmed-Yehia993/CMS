@@ -44,6 +44,18 @@ public class InfranetCUSTWebservicesProxy implements com.oracle.brm.cust.service
     return infranetCUSTWebservices;
   }
   
+  public java.lang.String pcmOpCustSetStatus(int in0, java.lang.String in1) throws java.rmi.RemoteException{
+    if (infranetCUSTWebservices == null)
+      _initInfranetCUSTWebservicesProxy();
+    return infranetCUSTWebservices.pcmOpCustSetStatus(in0, in1);
+  }
+  
+  public java.lang.String pcmOpCustCreateCustomer(int in0, java.lang.String in1) throws java.rmi.RemoteException{
+    if (infranetCUSTWebservices == null)
+      _initInfranetCUSTWebservicesProxy();
+    return infranetCUSTWebservices.pcmOpCustCreateCustomer(in0, in1);
+  }
+  
   public java.lang.String pcmOpCustCommitCustomer(int in0, java.lang.String in1) throws java.rmi.RemoteException{
     if (infranetCUSTWebservices == null)
       _initInfranetCUSTWebservicesProxy();
@@ -98,22 +110,16 @@ public class InfranetCUSTWebservicesProxy implements com.oracle.brm.cust.service
     return infranetCUSTWebservices.pcmOpCustDeleteProfile(in0, in1);
   }
   
-  public java.lang.String pcmOpCustCreateCustomer(int in0, java.lang.String in1) throws java.rmi.RemoteException{
+  public java.lang.String opcode(java.lang.String opcode, java.lang.String inputXML, java.lang.String m_SchemaFile) throws java.rmi.RemoteException{
     if (infranetCUSTWebservices == null)
       _initInfranetCUSTWebservicesProxy();
-    return infranetCUSTWebservices.pcmOpCustCreateCustomer(in0, in1);
+    return infranetCUSTWebservices.opcode(opcode, inputXML, m_SchemaFile);
   }
   
   public java.lang.String opcodeWithFlags(java.lang.String opcode, int flags, java.lang.String inputXML, java.lang.String m_SchemaFile) throws java.rmi.RemoteException{
     if (infranetCUSTWebservices == null)
       _initInfranetCUSTWebservicesProxy();
     return infranetCUSTWebservices.opcodeWithFlags(opcode, flags, inputXML, m_SchemaFile);
-  }
-  
-  public java.lang.String opcode(java.lang.String opcode, java.lang.String inputXML, java.lang.String m_SchemaFile) throws java.rmi.RemoteException{
-    if (infranetCUSTWebservices == null)
-      _initInfranetCUSTWebservicesProxy();
-    return infranetCUSTWebservices.opcode(opcode, inputXML, m_SchemaFile);
   }
   
   public java.lang.String test() throws java.rmi.RemoteException{
