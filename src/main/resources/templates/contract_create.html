@@ -184,7 +184,7 @@
                             </div>
                             <div class="step-pane magWizerd" id="tabbedwizardstep4">
                                 <div class="row form-group col-md-6">
-                                    <button class="add_field_button btn btn-palegreen btn-sm">Add
+                                    <button onclick='buttonOnClick()' type="button" class="add_field_button btn btn-palegreen btn-sm">Add
                                         One MAG
                                     </button>
                                 </div>
@@ -279,34 +279,6 @@
 		//--Bootstrap Date Picker--
 		$('.date-picker').datepicker();
 
-		$(document)
-				.ready(
-						function() {
-							var max_fields = 25; //maximum input boxes allowed
-							var wrapper = $(".input_fields_wrap"); //Fields wrapper
-							var add_button = $(".add_field_button"); //Add button ID
-
-							var x = 1; //initlal text box count
-							$(add_button)
-									.click(
-											function(e) { //on add input button click
-												e.preventDefault();
-												if (x < max_fields) { //max input box allowed
-													x++; //text box increment
-													$(wrapper)
-															.append(
-																	'<div class="row"><div class="input_fields_wrap col-md-3 form-group"><div><input type="text" class="form-control input-sm" placeholder="eg. 1234890" name="mag[]"></div></div><a href="#" class="remove_field btn btn-darkorange btn-sm">Remove</a></div>'); //add input box
-												}
-											});
-
-							$(wrapper).on("click", ".remove_field",
-									function(e) { //user click on remove text
-										e.preventDefault();
-										$(this).parent('div').remove();
-										x--;
-									})
-						});
-
 		$(function() {
 			$("#btnReset").bind("click", function() {
 				$("#deals")[0].selectedIndex = -1;
@@ -337,12 +309,24 @@ $("#contractType").change(function () {
 
         }else{
             $("#serviceLabel").after("<li data-target='#tabbedwizardstep4' id='magLabel' class='magWizerd'><span class='step'>4</span>MAG<span class='chevron'></span></li>");
-            $( "#tabbedwizardstep3" ).after("<div class='step-pane magWizerd' id='tabbedwizardstep4'><div class='row form-group col-md-6'><button class='add_field_button btn btn-palegreen btn-sm'>Add One MAG</button></div><div class='row'><div class='input_fields_wrap col-md-12 form-group'><div><input type='hidden' class='form-control input-sm' placeholder='eg. 1234890' name='mag[]'></div></div></div></div>");
+            $( "#tabbedwizardstep3" ).after("<div class='step-pane magWizerd' id='tabbedwizardstep4'><div class='row form-group col-md-6'><button type='button' onclick='buttonOnClick()' class='add_field_button btn btn-palegreen btn-sm'>Add One MAG</button></div><div class='row'><div class='input_fields_wrap col-md-12 form-group'><div><input type='hidden' class='form-control input-sm' placeholder='eg. 1234890' name='mag[]'></div></div></div></div>");
             $("#Contractlabel span").text("5")
+
+                $("#magButtonScriptId").remove();
+             var head= document.getElementsByTagName('head')[0];
+             var script= document.createElement('script');
+             script.id = "magButtonScriptId"
+                script.src= '/assets/js/mag-button-action.js';
+                head.appendChild(script);
+
         }
     });
 
+function addNewMag(){
+
+}
 </script>
+<script src="/assets/js/mag-button-action.js" id="magButtonScriptId"></script>
 
 </body>
 <!--  /Body -->
