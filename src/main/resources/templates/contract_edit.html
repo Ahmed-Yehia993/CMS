@@ -54,7 +54,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="contractNumber">Contract Number</label> <input
                                             type="text" class="form-control input-sm"
-                                            name="contractNumber" placeholder="eg. 10002352" th:value="${contract.accountNo}">
+                                            name="contractNumber" placeholder="eg. 10002352" th:value="${contract.accountNo}" disabled="disabled">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="companyName">Company Name</label>
@@ -69,7 +69,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="contractType">Contract Type</label>
                                         <select
-                                                name="contractType" id="contractType" class="form-control input-sm" >
+                                                name="contractType" id="contractType" class="form-control input-sm" disabled="disabled">
                                             <option value="Revenue Sharing" th:selected="${contract.type == 'Revenue Sharing'}">Revenue Sharing</option>
                                             <option value="Fixed Rental" th:selected="${contract.type == 'Fixed Rental'}">Fixed Rental</option>
                                             <option value="Incremental Rental" th:selected="${contract.type == 'Incremental Rental'}">Incremental
@@ -84,8 +84,8 @@
                                         <div class="input-group">
                                             <input class="form-control date-picker input-sm"
                                                    name="contractStart" data-date-format="dd/mm/yyyy"
-                                                   placeholder="eg. 09-04-2018" th:value="${contract.startDate}"> <span
-                                                class="input-group-addon" > <i class="fa fa-calendar"></i>
+                                                   placeholder="eg. 09-04-2018" th:value="${contract.startDate}" disabled="disabled"> <span
+                                                class="input-group-addon"> <i class="fa fa-calendar"></i>
 											</span>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="duration">Contract Duration (Years)</label> <input
                                             type="number" class="form-control input-sm" name="duration"
-                                            placeholder="eg. 5" th:value="${contract.duration}">
+                                            placeholder="eg. 5" th:value="${contract.duration}" disabled="disabled">
                                     </div>
                                 </div>
                             </div>

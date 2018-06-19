@@ -46,12 +46,9 @@ public class ContractController {
     @Autowired
     private PackageService packageService;
 
-    @Autowired
-    private DealService dealService;
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "C://WORK//CMS//src//main//resources//static//assets//uploadedFiles//";
-
-    //private static String UPLOADED_FOLDER = "D://Workspace//idea//CMS//src//main//resources//static//assets//uploadedFiles//";
+    //private static String UPLOADED_FOLDER = "C://WORK//CMS//src//main//resources//static//assets//uploadedFiles//";
+    private static String UPLOADED_FOLDER = "D://Workspace//idea//CMS//src//main//resources//static//assets//uploadedFiles//";
 
 
     @RequestMapping(value = "/contract/new", method = RequestMethod.GET)
@@ -83,7 +80,6 @@ public class ContractController {
         Hibernate.initialize(contract.getContact());
         modelAndView.addObject("contract",contract );
         modelAndView.addObject("currentUser", getCurrentUser());
-
         modelAndView.setViewName("contract_edit");
         return modelAndView;
     }
@@ -325,10 +321,7 @@ public class ContractController {
             e.printStackTrace();
         }
 
-        contract.setStatus(String.valueOf(ContractStatus.PENDING));
         contract.setType(contractType);
-
-
 
         contractService.saveContract(contract);
 
