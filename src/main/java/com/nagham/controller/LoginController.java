@@ -2,6 +2,8 @@ package com.nagham.controller;
 
 import javax.validation.Valid;
 
+import com.nagham.model.Role;
+import com.nagham.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +26,8 @@ public class LoginController {
 	
 	@Autowired
 	private UserService userService;
+
+
 
 	@RequestMapping(value={"/login"}, method = RequestMethod.GET)
 	public ModelAndView login(){

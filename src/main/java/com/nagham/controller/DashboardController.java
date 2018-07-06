@@ -3,7 +3,9 @@ package com.nagham.controller;
 import com.nagham.dto.ContractStatDto;
 import com.nagham.dto.ServicesStatDto;
 import com.nagham.model.Contract;
+import com.nagham.model.Role;
 import com.nagham.model.User;
+import com.nagham.repository.RoleRepository;
 import com.nagham.service.ContractService;
 import com.nagham.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ public class DashboardController {
     @Autowired
     private ContractService contractService;
 
+
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
@@ -34,6 +37,7 @@ public class DashboardController {
         modelAndView.addObject("stat", stat);
         modelAndView.addObject("serviceStat", serviceStat);
         modelAndView.setViewName("index");
+
         return modelAndView;
     }
 
